@@ -8,7 +8,7 @@ const navLinks = [
   { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
   { href: "#skills", label: "Skills" },
-  { href: "#blog", label: "Blog" },
+  // { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -35,7 +35,7 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed pt-2 top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
           ? "bg-background/80 backdrop-blur-lg border-b border-border/50 shadow-soft"
           : "bg-transparent"

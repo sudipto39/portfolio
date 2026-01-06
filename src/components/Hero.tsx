@@ -31,7 +31,7 @@ export const Hero = () => {
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0">
               3rd Year B.Tech CSE student from West Bengal, India. Passionate about
-              crafting secure, scalable applications with Node.js, Redis, and OAuth 2.0.
+              crafting secure, scalable applications with Node.js, MongoDB and OAuth 2.0.
             </p>
             
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">

@@ -26,25 +26,25 @@ export const Contact = () => {
   const socialLinks = [
     {
       name: "GitHub",
-      href: "https://github.com",
+      href: "https://github.com/sudipto39",
       icon: Github,
       color: "hover:text-foreground",
     },
     {
       name: "LinkedIn",
-      href: "https://linkedin.com",
+      href: "https://www.linkedin.com/in/sudipto-gayen-7416b622b/",
       icon: Linkedin,
       color: "hover:text-primary",
     },
     {
       name: "Email",
-      href: "mailto:hello@example.com",
+      href: "mailto:sudipto002gayen@gmail.com",
       icon: Mail,
       color: "hover:text-gold",
     },
     {
       name: "WhatsApp",
-      href: "https://wa.me/919876543210",
+      href: "https://wa.me/918336833473",
       icon: Phone,
       color: "hover:text-green-500",
     },
@@ -143,7 +143,7 @@ export const Contact = () => {
                 
                 <div className="space-y-4">
                   <a
-                    href="mailto:hello@example.com"
+                    href="mailto:sudipto002gayen@gmail.com"
                     className="flex items-center gap-4 p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors group"
                   >
                     <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
@@ -156,7 +156,7 @@ export const Contact = () => {
                   </a>
                   
                   <a
-                    href="https://wa.me/919876543210"
+                    href="https://wa.me/918336833473"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-4 p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors group"
@@ -166,7 +166,7 @@ export const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">WhatsApp</div>
-                      <div className="text-sm text-muted-foreground">+91 98765 43210</div>
+                      <div className="text-sm text-muted-foreground">+91 83368 33473</div>
                     </div>
                   </a>
                 </div>
@@ -198,7 +198,7 @@ export const Contact = () => {
                   Open to freelance & full-time opportunities! 🎯
                 </p>
                 <p className="text-muted-foreground">
-                  Based in Memari, West Bengal 🇮🇳
+                  Based in Kolkata, West Bengal 🇮🇳
                 </p>
               </div>
             </div>

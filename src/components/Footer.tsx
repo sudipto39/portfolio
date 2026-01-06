@@ -9,7 +9,8 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-center md:text-left">
             <a href="#" className="text-xl font-bold text-gradient">
-              &lt;Dev /&gt;
+              {/* &lt;Dev /&gt; */}
+              Sudipto Gayen
             </a>
           </div>
           
