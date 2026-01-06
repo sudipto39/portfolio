@@ -36,9 +36,10 @@ export const Navbar = () => {
           {/* Logo */}
           <a
             href="#"
-            className="text-xl md:text-2xl font-bold text-gradient hover:opacity-80 transition-opacity"
+            className="text-xl md:text-4xl font-bold text-gradient hover:opacity-70 transition-opacity duration-300 ease-in-out"
           >
-            &lt;Dev /&gt;
+            {/* &lt;Dev /&gt; */}
+            Sudipto Gayen
           </a>
 
           {/* Desktop Navigation */}

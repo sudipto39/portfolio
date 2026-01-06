@@ -55,7 +55,7 @@ export const Hero = () => {
             {/* Social Links */}
             <div className="flex gap-4 justify-center lg:justify-start pt-4">
               <a
-                href="https://github.com"
+                href="https://github.com/sudipto39"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-secondary/50 hover:bg-secondary hover:text-primary transition-all duration-300 hover:scale-110"
@@ -63,7 +63,7 @@ export const Hero = () => {
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/sudipto-gayen-7416b622b/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-secondary/50 hover:bg-secondary hover:text-primary transition-all duration-300 hover:scale-110"
@@ -71,7 +71,7 @@ export const Hero = () => {
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="mailto:hello@example.com"
+                href="mailto:sudipto002gayen@gmail.com"
                 className="p-3 rounded-full bg-secondary/50 hover:bg-secondary hover:text-primary transition-all duration-300 hover:scale-110"
               >
                 <Mail className="h-5 w-5" />

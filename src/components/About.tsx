@@ -26,7 +26,7 @@ export const About = () => {
                   <div className="text-center p-6">
                     <Coffee className="h-16 w-16 mx-auto text-primary mb-4" />
                     <p className="text-lg font-medium text-foreground">Backend Developer</p>
-                    <p className="text-sm text-muted-foreground">Memari, West Bengal</p>
+                    <p className="text-sm text-muted-foreground">Kolkata, West Bengal</p>
                   </div>
                 </div>
               </div>
