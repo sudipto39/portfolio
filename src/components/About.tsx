@@ -1,6 +1,6 @@
 import { Code2, Coffee, Heart, Sparkles } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import logo from "@/assets/logo2.jpg";
+import logo from "../assets/logo2.jpg";
 
 export const About = () => {
   const { ref, isVisible } = useScrollAnimation();
