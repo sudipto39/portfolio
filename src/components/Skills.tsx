@@ -2,21 +2,22 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 const skills = [
-  { name: "Node.js", level: 95, tooltip: "My trusty steed 🐎", color: "primary" },
-  { name: "Express.js", level: 90, tooltip: "Routing like a pro 🛤️", color: "primary" },
-  { name: "Redis", level: 80, tooltip: "Cache me if you can ⚡", color: "purple" },
-  { name: "OAuth 2.0", level: 80, tooltip: "Security is my middle name 🔐", color: "purple" },
+  { name: "JavaScript", level: 85, tooltip: "Types make me happy 💙", color: "purple" },
+  { name: "Node.js", level: 85, tooltip: "My trusty steed 🐎", color: "primary" },
+  { name: "Express.js", level: 80, tooltip: "Routing like a pro 🛤️", color: "primary" },
   { name: "MongoDB", level: 75, tooltip: "Documents are my friends 📄", color: "gold" },
-  { name: "PostgreSQL", level: 70, tooltip: "Relational reasoning 🗃️", color: "gold" },
-  { name: "Java/DSA", level: 60, tooltip: "Algorithmic thinking 🧠", color: "primary" },
-  { name: "TypeScript", level: 65, tooltip: "Types make me happy 💙", color: "purple" },
+  { name: "OAuth 2.0", level: 60, tooltip: "Security is my middle name 🔐", color: "purple" },
+  { name: "Redis", level: 50, tooltip: "Cache me if you can ⚡", color: "purple" },
+  // { name: "PostgreSQL", level: 70, tooltip: "Relational reasoning 🗃️", color: "gold" },
+  { name: "Java/DSA", level: 50, tooltip: "Algorithmic thinking 🧠", color: "primary" },
+  
 ];
 
 const technologies = [
   { name: "Git", category: "Tools" },
-  { name: "Docker", category: "DevOps" },
+  // { name: "Docker", category: "DevOps" },
   { name: "REST APIs", category: "Backend" },
-  { name: "WebSockets", category: "Real-time" },
+  // { name: "WebSockets", category: "Real-time" },
   { name: "Passport.js", category: "Auth" },
   { name: "JWT", category: "Security" },
   { name: "Linux", category: "Systems" },
@@ -129,7 +130,7 @@ export const Skills = () => {
                   <span className="text-xl">🌱</span> Currently Exploring
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                  {["CRDTs", "Distributed Systems", "AI Engineering", "Kubernetes", "GraphQL"].map(
+                  {["CRDTs", "WebSockets", "GoLang", "Generative AI"].map(
                     (item) => (
                       <span
                         key={item}

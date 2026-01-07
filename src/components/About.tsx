@@ -1,5 +1,6 @@
 import { Code2, Coffee, Heart, Sparkles } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import logo from "@/assets/logo2.jpg";
 
 export const About = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -22,13 +23,18 @@ export const About = () => {
               
               {/* Avatar container */}
               <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-glow">
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-purple/20 flex items-center justify-center">
+                {/* <div className="w-full h-full bg-gradient-to-br from-primary/20 to-purple/20 flex items-center justify-center">
                   <div className="text-center p-6">
                     <Coffee className="h-16 w-16 mx-auto text-primary mb-4" />
                     <p className="text-lg font-medium text-foreground">Backend Developer</p>
                     <p className="text-sm text-muted-foreground">Kolkata, West Bengal</p>
                   </div>
-                </div>
+                </div> */}
+            <img
+              src={logo}
+              alt="Sudipto Gayen Logo"
+              className="h-10 md:h-auto w-auto rounded-full transition-opacity duration-300 hover:opacity-80"
+            />
               </div>
               
               {/* Floating icons */}
@@ -74,8 +80,8 @@ export const About = () => {
             {/* Quick stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6">
               {[
-                { label: "Projects", value: "10+" },
-                { label: "Technologies", value: "15+" },
+                { label: "Projects", value: "5+" },
+                { label: "Technologies", value: "10+" },
                 { label: "Coffee Cups", value: "∞" },
                 { label: "Passion Level", value: "💯" },
               ].map((stat) => (
