@@ -151,7 +151,7 @@ export const Contact = () => {
                     </div>
                     <div>
                       <div className="font-medium">Email</div>
-                      <div className="text-sm text-muted-foreground">hello@example.com</div>
+                      <div className="text-sm text-muted-foreground">sudipto002gayen@gmail.com</div>
                     </div>
                   </a>
                   
