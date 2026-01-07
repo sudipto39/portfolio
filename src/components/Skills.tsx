@@ -19,7 +19,9 @@ const technologies = [
   { name: "REST APIs", category: "Backend" },
   // { name: "WebSockets", category: "Real-time" },
   { name: "Passport.js", category: "Auth" },
+  { name: "oAuth", category: "Auth" },
   { name: "JWT", category: "Security" },
+  { name: "Session", category: "Security" },
   { name: "Linux", category: "Systems" },
   { name: "VS Code", category: "Tools" },
 ];
