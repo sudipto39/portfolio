@@ -1,26 +1,96 @@
 import { useState } from "react";
-import { Github, Linkedin, Mail, MessageCircle, Send, Phone } from "lucide-react";
+import { Github, Linkedin, Mail, MessageCircle, Send, Phone, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Contact = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message sent! 🚀",
-      description: "Thanks for reaching out! I'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    
+    // Client-side validation
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage) {
+      toast({
+        title: "Missing fields",
+        description: "Please fill in all fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (trimmedName.length > 100) {
+      toast({
+        title: "Name too long",
+        description: "Name must be less than 100 characters.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (trimmedMessage.length > 5000) {
+      toast({
+        title: "Message too long",
+        description: "Message must be less than 5000 characters.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: trimmedName,
+          email: trimmedEmail,
+          message: trimmedMessage,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Message sent! 🚀",
+        description: "Thanks for reaching out! I'll get back to you soon. Check your email for confirmation.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Failed to send message",
+        description: error.message || "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
@@ -90,6 +160,8 @@ export const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="John Doe"
                     required
+                    maxLength={100}
+                    disabled={isSubmitting}
                     className="rounded-xl bg-secondary/50 border-border/50 focus:border-primary"
                   />
                 </div>
@@ -105,6 +177,8 @@ export const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="john@example.com"
                     required
+                    maxLength={255}
+                    disabled={isSubmitting}
                     className="rounded-xl bg-secondary/50 border-border/50 focus:border-primary"
                   />
                 </div>
@@ -119,6 +193,8 @@ export const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell me about your project or just say hello!"
                     required
+                    maxLength={5000}
+                    disabled={isSubmitting}
                     rows={5}
                     className="rounded-xl bg-secondary/50 border-border/50 focus:border-primary resize-none"
                   />
@@ -127,10 +203,20 @@ export const Contact = () => {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={isSubmitting}
                   className="w-full rounded-xl shadow-glow hover:shadow-glow transition-shadow"
                 >
-                  Send Message
-                  <Send className="ml-2 h-5 w-5" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="ml-2 h-5 w-5" />
+                    </>
+                  )}
                 </Button>
               </form>
             </div>
