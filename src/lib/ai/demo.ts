@@ -170,7 +170,7 @@ const resumeAnswer = () =>
     `You can download my updated resume directly here: **[${profile.resumeFilename}](${profile.resumeUrl})**`,
     `Key highlights:`,
     `- **Education**: B.Tech in CSE (Cybersecurity) @ The Neotia University (CGPA: 7.78 till 5th Sem)`,
-    `- **Industry Experience**: Backend Intern @ AiLabs (25+ production REST APIs) & Cybersecurity Intern @ Dataspace Academy (VAPT)`,
+    `- **Industry & Projects**: GiteaForge LMS (129 REST APIs across 14 modules, 130 with Swagger UI) & ShopXpress (25+ production REST APIs @ AiLabs), plus Cybersecurity Intern @ Dataspace Academy (VAPT)`,
     `- **Flagship Project**: GiteaForge (GCP Cloud Run, Judge0 sandbox VM, HMAC-SHA256 webhooks, Redis + Postgres hybrid session)`,
     `- **Email**: [${profile.email}](mailto:${profile.email}) · **Phone**: ${profile.phone}`,
   ].join('\n\n');

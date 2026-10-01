@@ -57,9 +57,9 @@ export function ExperiencePage() {
               className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center transition-colors hover:border-orange-400/30 hover:bg-orange-400/[0.02]"
             >
               <div className="font-mono text-3xl font-bold text-white sm:text-4xl">
-                <Counter value={25} suffix="+" />
+                <Counter value={129} suffix="" />
               </div>
-              <div className="mt-1.5 text-xs text-gray-400 sm:text-sm">Production REST APIs (AiLabs)</div>
+              <div className="mt-1.5 text-xs text-gray-400 sm:text-sm">REST APIs in LMS (14 Modules)</div>
             </motion.div>
           </StaggerItem>
 
@@ -70,9 +70,9 @@ export function ExperiencePage() {
               className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center transition-colors hover:border-orange-400/30 hover:bg-orange-400/[0.02]"
             >
               <div className="font-mono text-3xl font-bold text-orange-300 sm:text-4xl">
-                <Counter value={8} suffix="+" />
+                <Counter value={25} suffix="+" />
               </div>
-              <div className="mt-1.5 text-xs text-gray-400 sm:text-sm">Languages in Judge0 Sandbox</div>
+              <div className="mt-1.5 text-xs text-gray-400 sm:text-sm">REST APIs in ShopXpress (AiLabs)</div>
             </motion.div>
           </StaggerItem>
 

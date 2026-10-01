@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Globe, Layers, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Globe, Layers, Server, Sparkles } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { accents, profile } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -9,6 +9,23 @@ import { EASE, GithubIcon, PageTransition, SpotlightCard } from '../components/s
 import { PageBackground } from '../components/animations/PageBackground';
 import { AnimatedParagraph } from '../components/animations/ParagraphAnimation';
 import { ArchitectureDiagram } from '../components/ArchitectureDiagram';
+
+const GITEAFORGE_MODULES = [
+  { id: 1, name: 'Projects & Collaboration', count: 21, path: '/api/v1/projects' },
+  { id: 2, name: 'Admin & System Management', count: 15, path: '/api/v1/admin' },
+  { id: 3, name: 'Lab Assignments & Code Sandbox', count: 15, path: '/api/v1/lab-assignments' },
+  { id: 4, name: 'Users & Credentials', count: 11, path: '/api/v1/users' },
+  { id: 5, name: 'Milestones & Submissions', count: 9, path: '/api/v1' },
+  { id: 6, name: 'Authentication & Session', count: 8, path: '/api/v1/auth' },
+  { id: 7, name: 'Batches & Academic Roster', count: 8, path: '/api/v1/batches' },
+  { id: 8, name: 'Supervisor Portal', count: 8, path: '/api/v1/supervisors' },
+  { id: 9, name: 'Problem Statements', count: 6, path: '/api/v1/problem-statements' },
+  { id: 10, name: 'Gitea Repository Management', count: 6, path: '/api/v1/gitea' },
+  { id: 11, name: 'Courses', count: 5, path: '/api/v1/courses' },
+  { id: 12, name: 'Activities & Heatmap', count: 5, path: '/api/v1/activities' },
+  { id: 13, name: 'Execution Sandbox, Files, Evaluations & Webhooks', count: 10, path: '/api/v1/sandbox' },
+  { id: 14, name: 'Root & Monitoring', count: 3, path: '/api-docs Swagger UI' },
+];
 
 export function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -137,6 +154,51 @@ export function ProjectDetailPage() {
               </div>
             </div>
             <ArchitectureDiagram />
+
+            {/* Detailed Endpoint Breakdown by Module (129 APIs total, 130 with Swagger UI) */}
+            <div className="mt-8 rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
+                <div>
+                  <div className="flex items-center gap-2 font-mono text-xs text-orange-400 uppercase tracking-wider">
+                    <Server className="h-4 w-4" /> Production API Topology
+                  </div>
+                  <h3 className="mt-1 text-xl sm:text-2xl font-bold text-white">
+                    Detailed Endpoint Breakdown by Module
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2 rounded-xl border border-orange-400/30 bg-orange-400/10 px-4 py-2 font-mono text-xs sm:text-sm">
+                  <span className="font-bold text-white">Total: <span className="text-orange-300">129 APIs</span></span>
+                  <span className="text-gray-400">(130 with <code className="text-amber-200">/api-docs</code> Swagger UI)</span>
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {GITEAFORGE_MODULES.map((mod) => (
+                  <motion.div
+                    key={mod.id}
+                    whileHover={{ scale: 1.015, x: 2 }}
+                    className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3.5 transition-colors hover:border-orange-400/30 hover:bg-orange-400/[0.03]"
+                  >
+                    <div className="min-w-0 flex items-center gap-2.5">
+                      <span className="font-mono text-xs font-semibold text-orange-400 shrink-0">
+                        {mod.id}.
+                      </span>
+                      <div className="min-w-0">
+                        <div className="truncate text-xs sm:text-sm font-medium text-gray-200">
+                          {mod.name}
+                        </div>
+                        <code className="text-[11px] font-mono text-gray-500 truncate block">
+                          {mod.path}
+                        </code>
+                      </div>
+                    </div>
+                    <span className="shrink-0 rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 font-mono text-[11px] font-semibold text-orange-300">
+                      {mod.count} APIs
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         )}
 

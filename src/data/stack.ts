@@ -83,7 +83,7 @@ export const coreStack: StackTech[] = [
     group: 'backend',
     level: levelOf('Node.js & Express.js'),
     icon: brand(siNodedotjs),
-    blurb: 'Primary backend platform. Built 25+ production REST APIs at AiLabs and the Express 5 microservices powering GiteaForge on GCP Cloud Run.',
+    blurb: 'Primary backend platform. Built 129 RESTful APIs for GiteaForge LMS across 14 modules and 25+ APIs for ShopXpress at AiLabs.',
     match: ['node.js', 'node', 'express', 'express.js', 'express 5'],
   },
   {
