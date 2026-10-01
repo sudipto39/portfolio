@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly VITE_CLAUDE_ENDPOINT?: string;
   /** Optional server-side proxy (holds your DeepSeek key). Client calls `${endpoint}/chat/completions`. */
   readonly VITE_DEEPSEEK_ENDPOINT?: string;
+  /** Web3Forms Access Key for contact form submissions */
+  readonly VITE_WEB3FORMS_ACCESS_KEY?: string;
 }
 
 interface ImportMeta {

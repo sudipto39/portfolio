@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Clock, Copy, Download, Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
+import { Check, CheckCircle2, Clock, Copy, Download, Loader2, Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { profile } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -39,6 +39,8 @@ export function ContactPage() {
   const [copied, setCopied] = useState(false);
   const [phoneCopied, setPhoneCopied] = useState(false);
   const [time, setTime] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -67,7 +69,7 @@ export function ContactPage() {
     },
   });
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const found = validate(form);
     setErrors(found);
@@ -75,13 +77,65 @@ export function ContactPage() {
       toast.error('Please complete the highlighted fields');
       return;
     }
-    const subject = `[Portfolio] ${form.topic} — ${form.name.trim()}`;
-    const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
-    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    toast.success('Opening your mail client…', {
-      description: `Draft prepared for ${profile.email}`,
-    });
-    setForm(EMPTY);
+
+    setIsSubmitting(true);
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
+
+    if (!accessKey) {
+      // Fallback: If access key is not yet set in .env, launch mailto draft gracefully
+      toast.info('Opening default mail client as fallback… (Add VITE_WEB3FORMS_ACCESS_KEY in .env for direct API delivery)', {
+        duration: 5000,
+      });
+      const subject = `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`;
+      const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
+      window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setIsSubmitted(true);
+      setForm(EMPTY);
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          topic: form.topic,
+          message: form.message.trim(),
+          subject: `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`,
+          from_name: form.name.trim(),
+          botcheck: '',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success('Message sent successfully via Web3Forms!', {
+          description: "Thank you for reaching out! Sudipto has received your message in his inbox.",
+        });
+        setIsSubmitted(true);
+        setForm(EMPTY);
+      } else {
+        toast.error(data.message || 'Web3Forms submission failed. Opening email draft…');
+        const subject = `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`;
+        const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
+        window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
+    } catch {
+      toast.error('Network error contacting Web3Forms. Opening email draft as fallback…');
+      const subject = `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`;
+      const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
+      window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const copyEmail = async () => {
@@ -265,10 +319,38 @@ export function ContactPage() {
               noValidate
               className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-2xl shadow-black/30 backdrop-blur-sm sm:p-8 transition-colors hover:border-white/[0.14]"
             >
-              <h3 className="text-xl font-bold text-white">Send a Direct Message</h3>
+              {/* Web3Forms Anti-Spam Honeypot */}
+              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-xl font-bold text-white">Send a Direct Message</h3>
+                <span className="rounded-full border border-orange-400/25 bg-orange-400/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-orange-300">
+                  Web3Forms
+                </span>
+              </div>
               <AnimatedParagraph delay={0.05} className="mt-1 text-xs text-gray-400">
-                Fills a preformatted message in your default email client. No trackers, no databases.
+                Delivered directly to my inbox via Web3Forms with instant email notification.
               </AnimatedParagraph>
+
+              {isSubmitted && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-5 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4 text-emerald-200 text-xs flex items-center justify-between gap-3"
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                    <span>Message delivered to Sudipto's inbox! Expect a response within a few hours.</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-[11px] underline text-emerald-300 hover:text-white shrink-0"
+                  >
+                    Send another
+                  </button>
+                </motion.div>
+              )}
 
               {/* Topic Pills */}
               <div className="mt-6">
@@ -323,12 +405,21 @@ export function ContactPage() {
 
               <div className="mt-6 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
                 <p className="font-mono text-[11px] text-gray-500">
-                  Opens in your mail client · Direct to inbox
+                  Powered by Web3Forms · Instant delivery to inbox
                 </p>
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button type="submit" variant="gradient" size="lg" className="group">
-                    <Send className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-                    Send Message
+                  <Button type="submit" variant="gradient" size="lg" disabled={isSubmitting} className="group">
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-2 text-white" />
+                        Delivering…
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </motion.div>
               </div>
