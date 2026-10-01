@@ -1,4 +1,4 @@
-export type RemoteProvider = 'gemini' | 'claude' | 'deepseek';
+export type RemoteProvider = 'gemini' | 'groq';
 export type ProviderId = RemoteProvider | 'demo';
 
 export interface ModelOption {
@@ -29,7 +29,7 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     name: 'Google Gemini',
     vendor: 'Google AI Studio',
     tagline: '100% Free tier, ultra-fast & smart',
-    description: 'Google Gemini 1.5 & 2.0 Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD with zero cost and no credit card required.',
+    description: 'Google Gemini 2.0 & 1.5 Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD — zero cost, no credit card required.',
     host: 'generativelanguage.googleapis.com',
     defaultEndpoint: 'https://generativelanguage.googleapis.com',
     keyUrl: 'https://aistudio.google.com/app/apikey',
@@ -38,46 +38,28 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     accentBg: 'bg-sky-500/10',
     accentBorder: 'border-sky-500/35',
     models: [
-      { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash', hint: 'Fast, reliable & 100% free (Recommended)' },
-      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', hint: 'Cutting-edge speed & reasoning (Free)' },
+      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', hint: 'Fastest & smartest (Free)' },
+      { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash', hint: 'Fast, reliable & 100% free' },
       { id: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro', hint: 'Deeper reasoning & complex analysis' },
     ],
   },
-  claude: {
-    id: 'claude',
-    name: 'Claude',
-    vendor: 'Anthropic',
-    tagline: 'Nuanced, well-structured answers',
-    description: 'Anthropic’s Claude models — excellent at careful, nuanced technical explanations.',
-    host: 'api.anthropic.com',
-    defaultEndpoint: 'https://api.anthropic.com',
-    keyUrl: 'https://console.anthropic.com/settings/keys',
-    keyPlaceholder: 'sk-ant-api03-…',
-    accentText: 'text-claude',
-    accentBg: 'bg-claude/10',
-    accentBorder: 'border-claude/35',
+  groq: {
+    id: 'groq',
+    name: 'Groq',
+    vendor: 'GroqCloud',
+    tagline: 'Ultra-fast inference, free forever',
+    description: 'Llama 3.3 & Llama 3.1 models via GroqCloud. Blazing fast inference with a generous free tier — no credit card required.',
+    host: 'api.groq.com',
+    defaultEndpoint: 'https://api.groq.com',
+    keyUrl: 'https://console.groq.com/keys',
+    keyPlaceholder: 'gsk_…',
+    accentText: 'text-violet-400',
+    accentBg: 'bg-violet-500/10',
+    accentBorder: 'border-violet-500/35',
     models: [
-      { id: 'claude-sonnet-5', label: 'Claude Sonnet 5', hint: 'Best balance of speed & intelligence' },
-      { id: 'claude-haiku-4-5', label: 'Claude Haiku 4.5', hint: 'Fastest & most affordable' },
-      { id: 'claude-opus-5-5', label: 'Claude Opus 5.5', hint: 'Most capable — deeper answers' },
-    ],
-  },
-  deepseek: {
-    id: 'deepseek',
-    name: 'DeepSeek',
-    vendor: 'DeepSeek',
-    tagline: 'Fast, frontier-grade & low-cost',
-    description: 'DeepSeek V4 models via the OpenAI-compatible API, with optional visible reasoning.',
-    host: 'api.deepseek.com',
-    defaultEndpoint: 'https://api.deepseek.com',
-    keyUrl: 'https://platform.deepseek.com/api_keys',
-    keyPlaceholder: 'sk-…',
-    accentText: 'text-deepseek',
-    accentBg: 'bg-deepseek/10',
-    accentBorder: 'border-deepseek/40',
-    models: [
-      { id: 'deepseek-flash', label: 'DeepSeek V4.1 Flash', hint: 'Fast & ultra low-cost' },
-      { id: 'deepseek-v4-pro', label: 'DeepSeek V4 Pro', hint: 'Strongest DeepSeek model' },
+      { id: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B', hint: 'Best quality — ultra-fast (Free)' },
+      { id: 'llama-3.1-8b-instant', label: 'Llama 3.1 8B', hint: 'Fastest response time (Free)' },
+      { id: 'mixtral-8x7b-32768', label: 'Mixtral 8x7B', hint: 'Great reasoning & long context (Free)' },
     ],
   },
   demo: {
@@ -85,7 +67,7 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     name: 'Offline demo',
     vendor: 'On-device',
     tagline: 'Instant, private, no key needed',
-    description: 'A tiny on-device intent engine over my profile data.',
+    description: 'A tiny on-device intent engine over my profile data. No internet, no API key — just instant answers.',
     host: 'your browser',
     defaultEndpoint: '',
     accentText: 'text-orange-300',
@@ -95,30 +77,29 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
   },
 };
 
-export const PROVIDER_ORDER: ProviderId[] = ['gemini', 'claude', 'deepseek', 'demo'];
-
-/** Claude models that accept `output_config.effort` (Haiku 4.5 does not). */
-export const CLAUDE_EFFORT_MODELS = /claude-(opus-(4-[5-9]|5)|sonnet-(4-6|5)|fable|mythos)/;
+export const PROVIDER_ORDER: ProviderId[] = ['gemini', 'groq', 'demo'];
 
 // Vite inlines import.meta.env at build time; the fallback keeps this module usable in Node tests.
 const env: Partial<ImportMetaEnv> = import.meta.env ?? {};
 const envProvider = env.VITE_AI_PROVIDER;
 
-/** Build-time configuration — lets the site owner ship live AI through server-side proxies or free API keys. */
+/** Build-time configuration — lets the site owner pre-configure free AI providers. */
 export const ENV = {
   provider:
-    envProvider === 'gemini' || envProvider === 'claude' || envProvider === 'deepseek' || envProvider === 'demo'
+    envProvider === 'gemini' || envProvider === 'groq' || envProvider === 'demo'
       ? (envProvider as ProviderId)
-      : (env.VITE_GEMINI_API_KEY ? 'gemini' : undefined),
+      : env.VITE_GEMINI_API_KEY
+      ? 'gemini'
+      : env.VITE_GROQ_API_KEY
+      ? 'groq'
+      : undefined,
   keys: {
     gemini: env.VITE_GEMINI_API_KEY ?? '',
-    claude: env.VITE_CLAUDE_API_KEY ?? '',
-    deepseek: env.VITE_DEEPSEEK_API_KEY ?? '',
+    groq: env.VITE_GROQ_API_KEY ?? '',
   } as Record<RemoteProvider, string>,
   endpoints: {
     gemini: env.VITE_GEMINI_ENDPOINT ?? '',
-    claude: env.VITE_CLAUDE_ENDPOINT ?? '',
-    deepseek: env.VITE_DEEPSEEK_ENDPOINT ?? '',
+    groq: env.VITE_GROQ_ENDPOINT ?? '',
   } as Record<RemoteProvider, string>,
 };
 

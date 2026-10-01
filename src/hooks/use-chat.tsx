@@ -23,7 +23,6 @@ export interface AISettings {
   endpoints: Record<RemoteProvider, string>;
   keys: Record<RemoteProvider, string>;
   extraModels: Record<RemoteProvider, ModelOption[]>;
-  deepseekThinking: boolean;
   remember: boolean;
 }
 
@@ -94,20 +93,17 @@ export function modelLabel(settings: AISettings, provider: ProviderId, id: strin
 
 function defaultSettings(): AISettings {
   return {
-    provider: ENV.provider ?? (ENV.keys.gemini ? 'gemini' : 'demo'),
+    provider: ENV.provider ?? (ENV.keys.gemini ? 'gemini' : ENV.keys.groq ? 'groq' : 'demo'),
     models: {
       gemini: PROVIDERS.gemini.models[0].id,
-      claude: PROVIDERS.claude.models[0].id,
-      deepseek: PROVIDERS.deepseek.models[0].id,
+      groq: PROVIDERS.groq.models[0].id,
     },
-    endpoints: { gemini: '', claude: '', deepseek: '' },
+    endpoints: { gemini: '', groq: '' },
     keys: {
       gemini: ENV.keys.gemini ?? '',
-      claude: ENV.keys.claude ?? '',
-      deepseek: ENV.keys.deepseek ?? '',
+      groq: ENV.keys.groq ?? '',
     },
-    extraModels: { gemini: [], claude: [], deepseek: [] },
-    deepseekThinking: false,
+    extraModels: { gemini: [], groq: [] },
     remember: false,
   };
 }
@@ -142,7 +138,7 @@ function persist(settings: AISettings) {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(rest));
     localStorage.removeItem(KEYS_KEY);
     sessionStorage.removeItem(KEYS_KEY);
-    if (keys.gemini || keys.claude || keys.deepseek) {
+    if (keys.gemini || keys.groq) {
       (settings.remember ? localStorage : sessionStorage).setItem(KEYS_KEY, JSON.stringify(keys));
     }
   } catch {
@@ -150,7 +146,7 @@ function persist(settings: AISettings) {
   }
 }
 
-/** Anthropic requires alternating roles starting with "user"; merge and trim history accordingly. */
+/** Merge and trim conversation history for API providers. */
 function toApiMessages(history: ChatMessage[]): ApiMessage[] {
   const out: ApiMessage[] = [];
   for (const m of history) {
@@ -255,7 +251,6 @@ export function ChatProvider({ children }: { children: ReactNode }) {
             model,
             apiKey: s.keys[provider]?.trim() || ENV.keys[provider] || undefined,
             endpoint: effectiveEndpoint(s, provider) || undefined,
-            thinking: provider === 'deepseek' ? s.deepseekThinking : undefined,
             system: systemPrompt,
             messages: toApiMessages(history),
             signal: controller.signal,

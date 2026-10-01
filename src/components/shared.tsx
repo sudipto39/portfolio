@@ -361,9 +361,18 @@ export function GeminiMark({ className }: IconProps) {
   );
 }
 
+/** Stylised Groq lightning bolt (GroqCloud). */
+export function GroqMark({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z" />
+    </svg>
+  );
+}
+
 export function ProviderIcon({ provider, className }: { provider: ProviderId; className?: string }) {
   if (provider === 'gemini') return <GeminiMark className={cn('text-sky-400', className)} />;
-  if (provider === 'claude') return <ClaudeMark className={cn('text-claude', className)} />;
-  if (provider === 'deepseek') return <DeepSeekMark className={cn('text-deepseek', className)} />;
+  if (provider === 'groq') return <GroqMark className={cn('text-violet-400', className)} />;
   return <Cpu className={cn('text-orange-300', className)} />;
 }
+
