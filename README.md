@@ -13,7 +13,7 @@ A high-performance, dark-ember themed engineering portfolio built with React 19,
 ## 🌟 Highlights
 
 - **Interactive 3D Stack Orbit**: Custom spherical projection rendered in 60fps canvas with interactive node inspection, proficiency indicators, and production stack cross-referencing.
-- **Embedded AI Twin Studio**: Interactive conversational twin powered by Claude, DeepSeek, or Gemini with streaming token updates, contextual system grounding, and offline fallback demos.
+- **Embedded AI Twin Studio**: Interactive conversational twin powered by Google Gemini, Groq, or verified offline demo engine with streaming token updates, contextual system grounding, and zero-setup fallback.
 - **Interactive Cloud-Native Topologies**: Live animated SVG architecture diagrams illustrating GCP Cloud Run, Express 5 gateways, HMAC-SHA256 webhook validation, Neon PostgreSQL, and Judge0 sandboxes.
 - **Micro-choreographed UX**: Fluid page transitions, relaxed deceleration entrance curves (`[0.16, 1, 0.3, 1]`), directional 3-card lateral choreography, and custom ember-themed scrollbars.
 - **Zero Drift Architecture**: Built with Vite and TypeScript for sub-second hot reloading and single-file standalone distribution.
@@ -25,7 +25,7 @@ A high-performance, dark-ember themed engineering portfolio built with React 19,
 - **Core**: React 19, TypeScript 5.8, Vite 7
 - **Styling**: Tailwind CSS v4, Lucide React icons
 - **Motion & Physics**: Framer Motion
-- **AI Integrations**: Server-Sent Events (SSE) streaming engine with Anthropic, DeepSeek, Google Gemini, and Local Demo providers
+- **AI Integrations**: Server-Sent Events (SSE) streaming engine with Google Gemini, Groq, and local demo providers
 - **Deployment**: Static SPA / GCP Cloud Run / Vercel / GitHub Pages
 
 ---

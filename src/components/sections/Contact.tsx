@@ -244,7 +244,7 @@ export function Footer() {
         </div>
         <p className="text-center text-xs md:text-right">
           React 19 · Tailwind v4 · shadcn/ui · Framer Motion · Three.js ·{' '}
-          <span className="text-gray-400">AI by Claude &amp; DeepSeek</span>
+          <span className="text-gray-400">AI by Gemini &amp; Groq</span>
         </p>
         <a href="#home" className="inline-flex items-center gap-1.5 text-xs text-gray-400 transition hover:text-white">
           Back to top <ArrowUp className="h-3.5 w-3.5" />

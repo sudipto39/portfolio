@@ -1,13 +1,13 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Command } from 'cmdk';
-import { Briefcase, Cpu, FileText, Folder, Home, Layers, Mail, MessageSquare, RotateCcw, Search, Settings2, Sparkles, Users } from 'lucide-react';
+import { Briefcase, Cpu, FileText, Folder, Home, Layers, Mail, MessageSquare, RotateCcw, Search, Sparkles, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { profile } from '../data/profile';
-import { canGoLive, useChat } from '../hooks/use-chat';
+import { useChat } from '../hooks/use-chat';
 import { PROVIDERS, type ProviderId } from '../lib/ai/config';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from './ui/dialog';
-import { ClaudeMark, DeepSeekMark, GithubIcon, Kbd, LinkedinIcon, ProviderIcon } from './shared';
+import { GeminiMark, GroqMark, GithubIcon, Kbd, LinkedinIcon, ProviderIcon } from './shared';
 
 const NAV = [
   { path: '/', label: 'Home', icon: Home },
@@ -21,7 +21,7 @@ const NAV = [
 
 export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const navigate = useNavigate();
-  const { ask, setProvider, openSettings, settings, reset, activeProvider } = useChat();
+  const { ask, setProvider, reset, activeProvider } = useChat();
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -38,12 +38,8 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
 
   const switchTo = (id: ProviderId) =>
     run(() => {
-      if (id !== 'demo' && !canGoLive(settings, id)) {
-        openSettings(id);
-        return;
-      }
       setProvider(id);
-      toast.success(id === 'demo' ? 'Using the offline demo engine' : `Switched to ${PROVIDERS[id].name}`);
+      toast.success(id === 'demo' ? 'Switched to offline demo engine' : `Active engine: ${PROVIDERS[id].name}`);
     });
 
   const copyEmail = () =>
@@ -117,17 +113,14 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
               <Item value="open ai chat studio" icon={<MessageSquare className="h-4 w-4" />} onSelect={() => goToPage('/ai-twin')}>
                 Open AI Twin Studio
               </Item>
-              <Item value="use claude anthropic" icon={<ClaudeMark className="h-4 w-4 text-claude" />} onSelect={() => switchTo('claude')}>
-                Use Claude <span className="text-gray-500">Anthropic</span>
+              <Item value="use google gemini" icon={<GeminiMark className="h-4 w-4 text-orange-400" />} onSelect={() => switchTo('gemini')}>
+                Use Google Gemini <span className="text-gray-500">Free API</span>
               </Item>
-              <Item value="use deepseek" icon={<DeepSeekMark className="h-4 w-4 text-deepseek" />} onSelect={() => switchTo('deepseek')}>
-                Use DeepSeek
+              <Item value="use groq high speed" icon={<GroqMark className="h-4 w-4 text-orange-400" />} onSelect={() => switchTo('groq')}>
+                Use Groq <span className="text-gray-500">Llama 3.3</span>
               </Item>
               <Item value="use offline demo" icon={<Cpu className="h-4 w-4 text-orange-300" />} onSelect={() => switchTo('demo')}>
                 Use offline demo engine
-              </Item>
-              <Item value="ai settings api key model" icon={<Settings2 className="h-4 w-4" />} onSelect={() => run(() => openSettings())}>
-                AI settings &amp; API keys
               </Item>
               <Item
                 value="new conversation clear chat"

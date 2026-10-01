@@ -7,7 +7,6 @@ import { cn } from '../utils/cn';
 import { Button } from '../components/ui/button';
 import { EASE, GithubIcon, PageTransition, SpotlightCard } from '../components/shared';
 import { PageBackground } from '../components/animations/PageBackground';
-import { AnimatedParagraph } from '../components/animations/ParagraphAnimation';
 import { ArchitectureDiagram } from '../components/ArchitectureDiagram';
 
 const GITEAFORGE_MODULES = [

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Braces, Check, Copy, Radio, Settings2, ShieldCheck } from 'lucide-react';
+import { Braces, Check, Copy, Radio, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
-import { canGoLive, useChat } from '../hooks/use-chat';
+import { useChat } from '../hooks/use-chat';
 import { PROVIDER_ORDER, PROVIDERS, type ProviderId } from '../lib/ai/config';
 import { cn } from '../utils/cn';
 import { Button } from '../components/ui/button';
@@ -25,26 +25,25 @@ const STEPS = [
   {
     icon: ShieldCheck,
     title: 'Private & Zero Telemetry',
-    body: 'Your API keys stay in your browser’s localStorage or your own Cloudflare Worker proxy. No intermediate analytics or telemetry databases.',
+    body: 'Your queries stay in your browser or your own Cloudflare Worker proxy. No intermediate analytics or telemetry databases.',
   },
 ];
 
-const PROXY_SNIPPET = `// Cloudflare Worker — keeps your Anthropic key server-side.
-// Deploy it, then set VITE_CLAUDE_ENDPOINT=https://ai.your-domain.dev
+const PROXY_SNIPPET = `// Cloudflare Worker — keeps your Groq or Gemini key server-side.
+// Deploy it, then configure VITE_GROQ_ENDPOINT=https://ai.your-domain.dev
 export default {
   async fetch(req, env) {
     const cors = {
-      'access-control-allow-origin': 'https://your-portfolio.dev',
-      'access-control-allow-headers': 'content-type, anthropic-version',
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'content-type, authorization',
     };
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors });
 
-    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+    const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'x-api-key': env.ANTHROPIC_API_KEY,
+        'authorization': \`Bearer \${env.GROQ_API_KEY}\`,
       },
       body: req.body,
     });
@@ -57,16 +56,12 @@ export default {
 };`;
 
 export function AITwinPage() {
-  const { settings, setProvider, openSettings, activeProvider } = useChat();
+  const { setProvider, activeProvider } = useChat();
   const [copied, setCopied] = useState(false);
 
   const choose = (id: ProviderId) => {
-    if (id !== 'demo' && !canGoLive(settings, id)) {
-      openSettings(id);
-      return;
-    }
     setProvider(id);
-    toast.success(id === 'demo' ? 'Switched to offline demo engine' : `Active provider: ${PROVIDERS[id].name}`);
+    toast.success(id === 'demo' ? 'Switched to offline demo engine' : `Active engine: ${PROVIDERS[id].name}`);
   };
 
   const copySnippet = () => {
@@ -106,7 +101,6 @@ export function AITwinPage() {
             {PROVIDER_ORDER.map((id) => {
               const p = PROVIDERS[id];
               const isSelected = activeProvider === id;
-              const live = id === 'demo' || canGoLive(settings, id);
               return (
                 <motion.button
                   key={id}
@@ -123,20 +117,14 @@ export function AITwinPage() {
                 >
                   <ProviderIcon provider={id} className="h-4 w-4" />
                   <span>{p.name}</span>
-                  {!live && <span className="rounded bg-white/10 px-1 text-[10px] text-gray-400">Needs Key</span>}
                 </motion.button>
               );
             })}
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => openSettings()}
-            className="text-xs sm:text-sm text-gray-400 hover:text-white transition-colors"
-          >
-            <Settings2 className="h-4 w-4" /> Configure API Keys
-          </Button>
+          <div className="text-xs text-gray-500 font-mono">
+            Zero friction · Free tier &amp; offline grounded
+          </div>
         </motion.div>
 
         {/* Main Chat Panel Container */}
@@ -192,7 +180,7 @@ export function AITwinPage() {
             <div>
               <h4 className="font-semibold text-white">Want to keep your API key on the server?</h4>
               <AnimatedParagraph delay={0.08} className="mt-1 text-sm text-gray-400">
-                Deploy this tiny Cloudflare Worker proxy in 2 minutes to forward Anthropic or DeepSeek SSE requests safely.
+                Deploy this tiny Cloudflare Worker proxy in 2 minutes to forward Gemini or Groq SSE requests safely.
               </AnimatedParagraph>
             </div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

@@ -43,9 +43,8 @@ const greet = () =>
 const aboutTwin = () =>
   [
     `I'm **${profile.firstName}'s AI twin** — an assistant grounded on the same data that renders this portfolio.`,
-    '- **Live mode** streams answers from **Claude** (Anthropic) or **DeepSeek**, called straight from your browser.',
-    '- **Demo mode** — what you’re using now — is a tiny on-device intent engine: instant and private, but it only knows a few topics.',
-    'Open **AI settings** (the model pill at the top of this chat) to connect a provider with your own key.',
+    '- **Live mode** streams answers from **Google Gemini** or **Groq**, called straight from your browser.',
+    '- **Offline mode** — what you’re using now — is an on-device intent engine grounded in my verified resume, LinkedIn, and architecture metrics.',
   ].join('\n\n');
 
 const availability = () =>
@@ -190,7 +189,7 @@ const fallback = () =>
   [
     'I don’t have a canned answer for that in **offline demo mode**. I can tell you about:',
     `- my **projects** — e.g. GiteaForge (Judge0 sandbox, HMAC webhooks), ShopXpress, CloudSec VAPT Suite\n- my **stack** — Node.js, Express, TypeScript, PostgreSQL, Redis, Docker, GCP Cloud Run…\n- my **experience & internships** — AiLabs, Dataspace Academy\n- my **education & credentials** — The Neotia University (CGPA 7.78), Udemy Bootcamp, VAPT\n- my **resume** — download PDF`,
-    `For free-form questions, connect **DeepSeek** or **Claude** in AI settings — or email [${profile.email}](mailto:${profile.email}).`,
+    `For free-form questions, select **Google Gemini** or **Groq** — or email [${profile.email}](mailto:${profile.email}).`,
   ].join('\n\n');
 
 /* ------------------------------ router ------------------------------ */
@@ -208,7 +207,7 @@ export function answerLocally(input: string): string {
   if (!q) return fallback();
 
   if (q.length < 40 && /^(hi|hello|hey|yo|hiya|hola|good (morning|afternoon|evening))\b/i.test(q)) return greet();
-  if (mentionsAny(q, ['who are you', 'are you ai', 'are you an ai', 'are you a bot', 'are you real', 'what model', 'which model', 'deepseek', 'claude', 'how do you work', 'ai twin', 'llm'])) return aboutTwin();
+  if (mentionsAny(q, ['who are you', 'are you ai', 'are you an ai', 'are you a bot', 'are you real', 'what model', 'which model', 'gemini', 'groq', 'how do you work', 'ai twin', 'llm'])) return aboutTwin();
 
   if (mentionsAny(q, ['resume', 'cv', 'download resume', 'pdf'])) return resumeAnswer();
   if (mentionsAny(q, ['education', 'college', 'university', 'degree', 'cgpa', 'school', 'marks', 'academic', 'studies', 'study', 'btech', 'b.tech', 'neotia', 'ritam'])) return educationAnswer();

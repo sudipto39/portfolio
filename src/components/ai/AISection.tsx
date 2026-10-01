@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useInView } from 'framer-motion';
 import { Braces, Radio, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
-import { canGoLive, useChat } from '../../hooks/use-chat';
+import { useChat } from '../../hooks/use-chat';
 import { PROVIDER_ORDER, PROVIDERS, type ProviderId } from '../../lib/ai/config';
 import { cn } from '../../utils/cn';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
@@ -23,26 +23,25 @@ const STEPS = [
   {
     icon: ShieldCheck,
     title: 'Your key, your browser',
-    body: 'Requests go straight to Anthropic or DeepSeek — or to your own proxy.',
+    body: 'Requests go straight to Google Gemini or Groq API — or your proxy.',
   },
 ];
 
-const PROXY_SNIPPET = `// Cloudflare Worker — keeps your Anthropic key server-side.
-// Deploy it, then set VITE_CLAUDE_ENDPOINT=https://ai.your-domain.dev
+const PROXY_SNIPPET = `// Cloudflare Worker — keeps your Groq or Gemini key server-side.
+// Deploy it, then configure VITE_GROQ_ENDPOINT=https://ai.your-domain.dev
 export default {
   async fetch(req, env) {
     const cors = {
-      'access-control-allow-origin': 'https://your-portfolio.dev',
-      'access-control-allow-headers': 'content-type, anthropic-version',
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'content-type, authorization',
     };
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors });
 
-    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+    const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'anthropic-version': '2023-06-01',
-        'x-api-key': env.ANTHROPIC_API_KEY,
+        'authorization': \`Bearer \${env.GROQ_API_KEY}\`,
       },
       body: req.body,
     });
@@ -55,7 +54,7 @@ export default {
 };`;
 
 export function AISection() {
-  const { settings, setProvider, openSettings, setEmbeddedVisible } = useChat();
+  const { setProvider, setEmbeddedVisible, activeProvider } = useChat();
   const chatRef = useRef<HTMLDivElement>(null);
   const chatInView = useInView(chatRef, { amount: 0.3 });
 
@@ -64,10 +63,6 @@ export function AISection() {
   }, [chatInView, setEmbeddedVisible]);
 
   const choose = (id: ProviderId) => {
-    if (id !== 'demo' && !canGoLive(settings, id)) {
-      openSettings(id);
-      return;
-    }
     setProvider(id);
     toast.success(id === 'demo' ? 'Switched to the offline demo engine' : `Switched to ${PROVIDERS[id].name}`);
   };
@@ -109,8 +104,7 @@ export function AISection() {
               <div className="space-y-2.5">
                 {PROVIDER_ORDER.map((id) => {
                   const m = PROVIDERS[id];
-                  const selected = settings.provider === id;
-                  const ready = id === 'demo' || canGoLive(settings, id);
+                  const selected = activeProvider === id;
                   return (
                     <button
                       key={id}
@@ -132,20 +126,18 @@ export function AISection() {
                           <span className="text-xs text-gray-500">by {m.vendor}</span>
                         </span>
                         <span className="mt-0.5 block truncate text-xs text-gray-400">
-                          {m.tagline} · {m.models.map((x) => x.label.replace(/^(Claude|DeepSeek) /, '')).join(', ')}
+                          {m.tagline} · {m.models.map((x) => x.label.replace(/^(Gemini|Groq) /, '')).join(', ')}
                         </span>
                       </span>
                       <span
                         className={cn(
                           'shrink-0 rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider',
-                          selected && ready
+                          selected
                             ? 'border-orange-400/30 bg-orange-400/10 text-orange-300'
-                            : ready
-                              ? 'border-white/10 text-gray-400'
-                              : 'border-amber-400/25 bg-amber-400/[0.06] text-amber-300'
+                            : 'border-white/10 text-gray-400'
                         )}
                       >
-                        {selected && ready ? 'Active' : ready ? 'Ready' : 'Add key'}
+                        {selected ? 'Active' : 'Ready'}
                       </span>
                     </button>
                   );
@@ -170,8 +162,8 @@ export function AISection() {
                 <AccordionItem value="keys">
                   <AccordionTrigger>Where does my API key go?</AccordionTrigger>
                   <AccordionContent>
-                    Only into your browser — sessionStorage by default, localStorage if you tick “Remember”. Requests go directly
-                    from your browser to api.anthropic.com or api.deepseek.com (or your proxy). Nothing touches my servers.
+                    Directly into your browser — environment variables or localStorage. Requests go directly
+                    from your browser to Google AI Studio or GroqCloud (or your proxy). Nothing touches intermediate servers.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="grounding">
@@ -184,8 +176,8 @@ export function AISection() {
                 <AccordionItem value="demo">
                   <AccordionTrigger>Can I use it without a key?</AccordionTrigger>
                   <AccordionContent>
-                    Yes — the offline demo engine answers common questions instantly from the same data, fully on-device. Connect
-                    Claude or DeepSeek for free-form conversations.
+                    Yes — the offline demo engine answers common questions instantly from the same data, fully on-device. Use
+                    Google Gemini or Groq for free-form conversations.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="proxy">

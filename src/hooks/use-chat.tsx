@@ -44,10 +44,7 @@ interface ChatContextValue {
   activeModelLabel: string;
   chatOpen: boolean;
   setChatOpen: (open: boolean) => void;
-  settingsOpen: boolean;
-  settingsProvider: ProviderId | null;
-  openSettings: (provider?: ProviderId) => void;
-  closeSettings: () => void;
+  openSettings?: (provider?: ProviderId) => void;
   embeddedVisible: boolean;
   setEmbeddedVisible: (visible: boolean) => void;
 }
@@ -167,8 +164,6 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [settingsProvider, setSettingsProvider] = useState<ProviderId | null>(null);
   const [embeddedVisible, setEmbeddedVisible] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -325,11 +320,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const saveSettings = useCallback((next: AISettings) => setSettings(next), []);
   const setProvider = useCallback((provider: ProviderId) => setSettings((prev) => ({ ...prev, provider })), []);
 
-  const openSettings = useCallback((provider?: ProviderId) => {
-    setSettingsProvider(provider ?? null);
-    setSettingsOpen(true);
-  }, []);
-  const closeSettings = useCallback(() => setSettingsOpen(false), []);
+  const openSettings = useCallback(() => {}, []);
 
   const isLive = canGoLive(settings, settings.provider);
   const activeProvider: ProviderId = isLive ? settings.provider : 'demo';
@@ -354,10 +345,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       activeModelLabel,
       chatOpen,
       setChatOpen,
-      settingsOpen,
-      settingsProvider,
       openSettings,
-      closeSettings,
       embeddedVisible,
       setEmbeddedVisible,
     }),
@@ -377,10 +365,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       activeModel,
       activeModelLabel,
       chatOpen,
-      settingsOpen,
-      settingsProvider,
       openSettings,
-      closeSettings,
       embeddedVisible,
     ]
   );

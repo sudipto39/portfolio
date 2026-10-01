@@ -7,7 +7,7 @@ import { coreStack, orbitStack, STACK_GROUPS, usedIn, type StackGroup, type Stac
 import { useChat } from '../hooks/use-chat';
 import { cn } from '../utils/cn';
 import { Button } from '../components/ui/button';
-import { EASE, PageTransition, SectionHeading, SpotlightCard, StaggerContainer, StaggerItem } from '../components/shared';
+import { EASE, PageTransition, SectionHeading, SpotlightCard } from '../components/shared';
 import { StackOrbit } from '../components/sections/StackOrbit';
 import { PageBackground } from '../components/animations/PageBackground';
 import { AnimatedParagraph } from '../components/animations/ParagraphAnimation';

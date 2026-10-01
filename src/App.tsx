@@ -8,7 +8,6 @@ import { Navbar } from './components/sections/Navbar';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { AILauncher } from './components/ai/AILauncher';
-import { AISettingsDialog } from './components/ai/AISettingsDialog';
 import { CommandMenu } from './components/CommandMenu';
 import { CustomCursor } from './components/CustomCursor';
 import { AmbientGlow } from './components/shared';
@@ -91,7 +90,6 @@ function MainLayout() {
       <Footer />
 
       <AILauncher />
-      <AISettingsDialog />
       <CommandMenu open={commandOpen} onOpenChange={setCommandOpen} />
       <CustomCursor />
       <Toaster theme="dark" position="bottom-center" richColors closeButton />

@@ -6,9 +6,8 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-ink: #140c08;
-  --color-panel: #1c120c;
-  --color-claude: #d97757;
-  --color-deepseek: #e08a3c;
+  --color-gemini: #4e82ee;
+  --color-groq: #f55036;
 
   --animate-marquee: marquee 48s linear infinite;
   --animate-float: float 7s ease-in-out infinite;

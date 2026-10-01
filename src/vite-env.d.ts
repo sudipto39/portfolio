@@ -1,12 +1,16 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  /** Default AI provider for visitors: "claude" | "deepseek" | "demo" */
+  /** Default AI provider for visitors: "gemini" | "groq" | "demo" */
   readonly VITE_AI_PROVIDER?: string;
-  /** Optional server-side proxy (holds your Anthropic key). Client calls `${endpoint}/v1/messages`. */
-  readonly VITE_CLAUDE_ENDPOINT?: string;
-  /** Optional server-side proxy (holds your DeepSeek key). Client calls `${endpoint}/chat/completions`. */
-  readonly VITE_DEEPSEEK_ENDPOINT?: string;
+  /** Google Gemini API key */
+  readonly VITE_GEMINI_API_KEY?: string;
+  /** Optional custom Gemini endpoint or proxy */
+  readonly VITE_GEMINI_ENDPOINT?: string;
+  /** Groq API key */
+  readonly VITE_GROQ_API_KEY?: string;
+  /** Optional custom Groq endpoint or proxy */
+  readonly VITE_GROQ_ENDPOINT?: string;
   /** Web3Forms Access Key for contact form submissions */
   readonly VITE_WEB3FORMS_ACCESS_KEY?: string;
 }

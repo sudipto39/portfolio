@@ -11,7 +11,6 @@ import {
   Layers,
   Rocket,
   RotateCcw,
-  Settings2,
   Sparkles,
   Square,
   Workflow,
@@ -37,7 +36,7 @@ interface ChatPanelProps {
 }
 
 export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelProps) {
-  const { messages, isStreaming, send, stop, reset, retry, isLive, activeProvider, activeModelLabel, openSettings } =
+  const { messages, isStreaming, send, stop, reset, retry, isLive, activeProvider, activeModelLabel } =
     useChat();
   const [input, setInput] = useState('');
   const inputId = useId();
@@ -107,20 +106,12 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
           </p>
         </div>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              type="button"
-              onClick={() => openSettings()}
-              className="flex max-w-[10.5rem] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] py-1 pl-2 pr-2.5 text-xs text-gray-300 transition hover:border-white/20 hover:bg-white/[0.08]"
-            >
-              <ProviderIcon provider={activeProvider} className="h-3.5 w-3.5 shrink-0" />
-              <span className="truncate">{activeModelLabel}</span>
-              <ChevronDown className="h-3 w-3 shrink-0 text-gray-500" />
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>Switch model · AI settings</TooltipContent>
-        </Tooltip>
+        <div
+          className="flex max-w-[12rem] items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] py-1 px-2.5 text-xs text-gray-300"
+        >
+          <ProviderIcon provider={activeProvider} className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate">{activeModelLabel}</span>
+        </div>
 
         <Tooltip>
           <TooltipTrigger asChild>
@@ -191,14 +182,7 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
             </span>
           ) : (
             <span className="truncate">
-              Demo mode ·{' '}
-              <button type="button" onClick={() => openSettings('claude')} className="text-orange-300 hover:underline">
-                connect Claude
-              </button>{' '}
-              or{' '}
-              <button type="button" onClick={() => openSettings('deepseek')} className="text-orange-300 hover:underline">
-                DeepSeek
-              </button>
+              Offline engine · grounded in verified resume &amp; LinkedIn background
             </span>
           )}
           <span className="hidden shrink-0 items-center gap-1 sm:flex">
@@ -339,7 +323,6 @@ function ThinkingDots({ label }: { label: string }) {
 }
 
 function ErrorNotice({ error, onRetry }: { error: { message: string; hint?: string }; onRetry?: () => void }) {
-  const { openSettings } = useChat();
   return (
     <div className="mt-2 rounded-xl border border-rose-400/20 bg-rose-400/[0.06] p-3 text-sm">
       <div className="flex items-start gap-2 text-rose-200">
@@ -347,16 +330,13 @@ function ErrorNotice({ error, onRetry }: { error: { message: string; hint?: stri
         <span className="break-words">{error.message}</span>
       </div>
       {error.hint && <p className="mt-1.5 pl-6 text-xs text-rose-200/70">{error.hint}</p>}
-      <div className="mt-3 flex flex-wrap gap-2 pl-6">
-        {onRetry && (
+      {onRetry && (
+        <div className="mt-3 flex flex-wrap gap-2 pl-6">
           <Button size="sm" variant="secondary" onClick={onRetry}>
             <RotateCcw className="h-3.5 w-3.5" /> Retry
           </Button>
-        )}
-        <Button size="sm" variant="ghost" onClick={() => openSettings()}>
-          <Settings2 className="h-3.5 w-3.5" /> AI settings
-        </Button>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
