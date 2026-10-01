@@ -2,6 +2,10 @@
 
 > **Production Backend & Full-Stack Developer** · Cloud-Native Distributed Systems, Zero-Drift Architectures & Cryptographic Security.
 
+<p align="center">
+  <img src="./assets/preview.png" alt="Sudipto Gayen — Portfolio Hero Preview" width="100%" />
+</p>
+
 A high-performance, dark-ember themed engineering portfolio built with React 19, TypeScript, Vite, Tailwind CSS, and Framer Motion. Featuring an interactive 3D technology constellation orbit, AI twin assistant studio with token-by-token SSE streaming, live SVG system topology visualizers, and comprehensive architecture case studies.
 
 ---
