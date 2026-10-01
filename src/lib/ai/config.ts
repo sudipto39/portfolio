@@ -1,4 +1,4 @@
-export type RemoteProvider = 'claude' | 'deepseek';
+export type RemoteProvider = 'gemini' | 'claude' | 'deepseek';
 export type ProviderId = RemoteProvider | 'demo';
 
 export interface ModelOption {
@@ -24,6 +24,25 @@ export interface ProviderMeta {
 }
 
 export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
+  gemini: {
+    id: 'gemini',
+    name: 'Google Gemini',
+    vendor: 'Google AI Studio',
+    tagline: '100% Free tier, ultra-fast & smart',
+    description: 'Google Gemini 1.5 & 2.0 Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD with zero cost and no credit card required.',
+    host: 'generativelanguage.googleapis.com',
+    defaultEndpoint: 'https://generativelanguage.googleapis.com',
+    keyUrl: 'https://aistudio.google.com/app/apikey',
+    keyPlaceholder: 'AIzaSy…',
+    accentText: 'text-sky-400',
+    accentBg: 'bg-sky-500/10',
+    accentBorder: 'border-sky-500/35',
+    models: [
+      { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash', hint: 'Fast, reliable & 100% free (Recommended)' },
+      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', hint: 'Cutting-edge speed & reasoning (Free)' },
+      { id: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro', hint: 'Deeper reasoning & complex analysis' },
+    ],
+  },
   claude: {
     id: 'claude',
     name: 'Claude',
@@ -76,7 +95,7 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
   },
 };
 
-export const PROVIDER_ORDER: ProviderId[] = ['claude', 'deepseek', 'demo'];
+export const PROVIDER_ORDER: ProviderId[] = ['gemini', 'claude', 'deepseek', 'demo'];
 
 /** Claude models that accept `output_config.effort` (Haiku 4.5 does not). */
 export const CLAUDE_EFFORT_MODELS = /claude-(opus-(4-[5-9]|5)|sonnet-(4-6|5)|fable|mythos)/;
@@ -85,13 +104,19 @@ export const CLAUDE_EFFORT_MODELS = /claude-(opus-(4-[5-9]|5)|sonnet-(4-6|5)|fab
 const env: Partial<ImportMetaEnv> = import.meta.env ?? {};
 const envProvider = env.VITE_AI_PROVIDER;
 
-/** Build-time configuration — lets the site owner ship live AI through server-side proxies. */
+/** Build-time configuration — lets the site owner ship live AI through server-side proxies or free API keys. */
 export const ENV = {
   provider:
-    envProvider === 'claude' || envProvider === 'deepseek' || envProvider === 'demo'
+    envProvider === 'gemini' || envProvider === 'claude' || envProvider === 'deepseek' || envProvider === 'demo'
       ? (envProvider as ProviderId)
-      : undefined,
+      : (env.VITE_GEMINI_API_KEY ? 'gemini' : undefined),
+  keys: {
+    gemini: env.VITE_GEMINI_API_KEY ?? '',
+    claude: env.VITE_CLAUDE_API_KEY ?? '',
+    deepseek: env.VITE_DEEPSEEK_API_KEY ?? '',
+  } as Record<RemoteProvider, string>,
   endpoints: {
+    gemini: env.VITE_GEMINI_ENDPOINT ?? '',
     claude: env.VITE_CLAUDE_ENDPOINT ?? '',
     deepseek: env.VITE_DEEPSEEK_ENDPOINT ?? '',
   } as Record<RemoteProvider, string>,

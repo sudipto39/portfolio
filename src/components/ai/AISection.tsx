@@ -86,7 +86,7 @@ export function AISection() {
               Don&apos;t read my CV — <span className="text-gradient">ask it.</span>
             </>
           }
-          description="An AI version of me, grounded on everything on this page. Powered by Claude or DeepSeek with real-time streaming — or the offline demo engine, no key required."
+          description="An AI version of me, grounded on my resume, LinkedIn, and real engineering metrics. Powered by Google Gemini (Free), Claude, or DeepSeek with real-time streaming — or the offline demo engine, no key required."
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">

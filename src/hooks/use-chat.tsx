@@ -73,7 +73,7 @@ export function effectiveEndpoint(settings: AISettings, provider: RemoteProvider
 /** A provider is "live" when it has a key or an endpoint (proxy) configured. */
 export function canGoLive(settings: AISettings, provider: ProviderId): boolean {
   if (provider === 'demo') return false;
-  return Boolean(settings.keys[provider].trim() || effectiveEndpoint(settings, provider));
+  return Boolean(settings.keys[provider]?.trim() || ENV.keys[provider] || effectiveEndpoint(settings, provider));
 }
 
 export function modelOptions(settings: AISettings, provider: ProviderId): ModelOption[] {
@@ -94,11 +94,19 @@ export function modelLabel(settings: AISettings, provider: ProviderId, id: strin
 
 function defaultSettings(): AISettings {
   return {
-    provider: ENV.provider ?? 'demo',
-    models: { claude: PROVIDERS.claude.models[0].id, deepseek: PROVIDERS.deepseek.models[0].id },
-    endpoints: { claude: '', deepseek: '' },
-    keys: { claude: '', deepseek: '' },
-    extraModels: { claude: [], deepseek: [] },
+    provider: ENV.provider ?? (ENV.keys.gemini ? 'gemini' : 'demo'),
+    models: {
+      gemini: PROVIDERS.gemini.models[0].id,
+      claude: PROVIDERS.claude.models[0].id,
+      deepseek: PROVIDERS.deepseek.models[0].id,
+    },
+    endpoints: { gemini: '', claude: '', deepseek: '' },
+    keys: {
+      gemini: ENV.keys.gemini ?? '',
+      claude: ENV.keys.claude ?? '',
+      deepseek: ENV.keys.deepseek ?? '',
+    },
+    extraModels: { gemini: [], claude: [], deepseek: [] },
     deepseekThinking: false,
     remember: false,
   };
@@ -134,7 +142,7 @@ function persist(settings: AISettings) {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(rest));
     localStorage.removeItem(KEYS_KEY);
     sessionStorage.removeItem(KEYS_KEY);
-    if (keys.claude || keys.deepseek) {
+    if (keys.gemini || keys.claude || keys.deepseek) {
       (settings.remember ? localStorage : sessionStorage).setItem(KEYS_KEY, JSON.stringify(keys));
     }
   } catch {
@@ -245,7 +253,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
           await streamChat({
             provider,
             model,
-            apiKey: s.keys[provider].trim() || undefined,
+            apiKey: s.keys[provider]?.trim() || ENV.keys[provider] || undefined,
             endpoint: effectiveEndpoint(s, provider) || undefined,
             thinking: provider === 'deepseek' ? s.deepseekThinking : undefined,
             system: systemPrompt,

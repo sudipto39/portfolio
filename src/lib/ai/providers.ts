@@ -51,6 +51,12 @@ function claudeHeaders(apiKey?: string): Record<string, string> {
   return headers;
 }
 
+function geminiHeaders(apiKey?: string): Record<string, string> {
+  const headers: Record<string, string> = { 'content-type': 'application/json' };
+  if (apiKey) headers['x-goog-api-key'] = apiKey;
+  return headers;
+}
+
 function deepseekHeaders(apiKey?: string): Record<string, string> {
   const headers: Record<string, string> = { 'content-type': 'application/json' };
   if (apiKey) headers.authorization = `Bearer ${apiKey}`;
@@ -253,10 +259,83 @@ async function streamDeepSeek(opts: StreamOptions): Promise<void> {
 }
 
 /* ------------------------------------------------------------------ */
+/* Google Gemini — Generative Language REST Streaming API             */
+/* ------------------------------------------------------------------ */
+
+interface GeminiCandidate {
+  content?: {
+    parts?: { text?: string }[];
+    role?: string;
+  };
+  finishReason?: string;
+}
+
+interface GeminiChunk {
+  candidates?: GeminiCandidate[];
+  error?: { message?: string; code?: number };
+}
+
+async function streamGemini(opts: StreamOptions): Promise<void> {
+  const contents: { role: 'user' | 'model'; parts: { text: string }[] }[] = [];
+  for (const m of opts.messages) {
+    const role = m.role === 'assistant' ? 'model' : 'user';
+    const prev = contents[contents.length - 1];
+    if (prev && prev.role === role) {
+      prev.parts[0].text += `\n\n${m.content}`;
+    } else {
+      contents.push({ role, parts: [{ text: m.content }] });
+    }
+  }
+
+  const body: Record<string, unknown> = {
+    contents,
+    systemInstruction: {
+      parts: [{ text: opts.system }],
+    },
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 2048,
+    },
+  };
+
+  const keyParam = opts.apiKey ? `?alt=sse&key=${encodeURIComponent(opts.apiKey)}` : '?alt=sse';
+  const url = `${baseUrl('gemini', opts.endpoint)}/v1beta/models/${opts.model}:streamGenerateContent${keyParam}`;
+
+  const res = await request(
+    url,
+    {
+      method: 'POST',
+      headers: geminiHeaders(opts.apiKey),
+      body: JSON.stringify(body),
+      signal: opts.signal,
+    },
+    'gemini',
+    Boolean(opts.endpoint?.trim())
+  );
+
+  for await (const { data } of readSSE(res)) {
+    let chunk: GeminiChunk;
+    try {
+      chunk = JSON.parse(data) as GeminiChunk;
+    } catch {
+      continue;
+    }
+    if (chunk.error?.message) {
+      throw new AIError(chunk.error.message);
+    }
+    const text = chunk.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (text) {
+      opts.onText(text);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* Public API                                                          */
 /* ------------------------------------------------------------------ */
 
 export function streamChat(opts: StreamOptions): Promise<void> {
+  if (opts.provider === 'gemini') return streamGemini(opts);
   return opts.provider === 'claude' ? streamClaude(opts) : streamDeepSeek(opts);
 }
 
@@ -269,6 +348,28 @@ export async function listModels(
 ): Promise<ModelOption[]> {
   const viaProxy = Boolean(endpoint?.trim());
   const base = baseUrl(provider, endpoint);
+
+  if (provider === 'gemini') {
+    if (!apiKey && !viaProxy) return PROVIDERS.gemini.models;
+    try {
+      const url = `${base}/v1beta/models?key=${encodeURIComponent(apiKey ?? '')}`;
+      const res = await request(url, { headers: { 'content-type': 'application/json' }, signal }, provider, viaProxy);
+      const json = (await res.json()) as { models?: { name: string; displayName?: string; description?: string }[] };
+      const list = (json.models ?? [])
+        .filter((m) => m.name.includes('gemini'))
+        .map((m) => {
+          const id = m.name.replace(/^models\//, '');
+          return {
+            id,
+            label: m.displayName ?? id,
+            hint: m.description ? `${m.description.slice(0, 45)}…` : 'Google Gemini model',
+          };
+        });
+      return list.length ? list : PROVIDERS.gemini.models;
+    } catch {
+      return PROVIDERS.gemini.models;
+    }
+  }
 
   if (provider === 'claude') {
     const res = await request(`${base}/v1/models?limit=100`, { headers: claudeHeaders(apiKey), signal }, provider, viaProxy);

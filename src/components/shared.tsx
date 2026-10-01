@@ -352,7 +352,17 @@ export function DeepSeekMark({ className }: IconProps) {
   );
 }
 
+/** Stylised Gemini sparkle (Google AI). */
+export function GeminiMark({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12Z" />
+    </svg>
+  );
+}
+
 export function ProviderIcon({ provider, className }: { provider: ProviderId; className?: string }) {
+  if (provider === 'gemini') return <GeminiMark className={cn('text-sky-400', className)} />;
   if (provider === 'claude') return <ClaudeMark className={cn('text-claude', className)} />;
   if (provider === 'deepseek') return <DeepSeekMark className={cn('text-deepseek', className)} />;
   return <Cpu className={cn('text-orange-300', className)} />;
