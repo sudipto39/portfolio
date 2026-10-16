@@ -79,7 +79,7 @@ export function AmbientGlow({
         width: size,
         height: size,
         background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-        filter: 'blur(70px)',
+        willChange: 'transform, opacity',
       }}
       className={cn('pointer-events-none absolute rounded-full', className)}
     />

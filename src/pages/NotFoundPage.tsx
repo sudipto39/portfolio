@@ -24,7 +24,7 @@ export function NotFoundPage() {
 
           <div className="p-6 font-mono text-xs leading-relaxed">
             <div className="text-gray-300">
-              <span className="text-orange-400">➜</span> <span className="text-amber-300">~</span> curl -I https://sudiptogayen.dev{window.location.hash || window.location.pathname}
+              <span className="text-orange-400">➜</span> <span className="text-amber-300">~</span> curl -I https://sudiptogayen.com{window.location.pathname}
             </div>
             <div className="mt-2 text-rose-400 font-semibold">
               HTTP/2 404 NOT FOUND

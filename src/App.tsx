@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useState, type ReactElement } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, MotionConfig, motion, useScroll, useSpring } from 'framer-motion';
 import { Toaster } from 'sonner';
 import { ChatProvider } from './hooks/use-chat';
@@ -7,21 +7,26 @@ import { TooltipProvider } from './components/ui/tooltip';
 import { Navbar } from './components/sections/Navbar';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
+import { RouteSeo } from './components/RouteSeo';
 import { AILauncher } from './components/ai/AILauncher';
 import { CommandMenu } from './components/CommandMenu';
 import { CustomCursor } from './components/CustomCursor';
 import { AmbientGlow } from './components/shared';
-import {
-  HomePage,
-  AboutPage,
-  ProjectsPage,
-  ProjectDetailPage,
-  StackPage,
-  ExperiencePage,
-  AITwinPage,
-  ContactPage,
-  NotFoundPage,
-} from './pages';
+import { HomePage } from './pages/HomePage';
+import { NotFoundPage } from './pages/NotFoundPage';
+
+// Every other page is its own chunk, fetched on first visit.
+const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })));
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage').then((m) => ({ default: m.ProjectsPage })));
+const ProjectDetailPage = lazy(() =>
+  import('./pages/ProjectDetailPage').then((m) => ({ default: m.ProjectDetailPage })),
+);
+const StackPage = lazy(() => import('./pages/StackPage').then((m) => ({ default: m.StackPage })));
+const ExperiencePage = lazy(() => import('./pages/ExperiencePage').then((m) => ({ default: m.ExperiencePage })));
+const AITwinPage = lazy(() => import('./pages/AITwinPage').then((m) => ({ default: m.AITwinPage })));
+const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
+
+const lazyPage = (page: ReactElement) => <Suspense fallback={null}>{page}</Suspense>;
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -69,19 +74,19 @@ function MainLayout() {
       <Navbar onOpenCommand={() => setCommandOpen(true)} />
 
       <main id="main" className="flex-1 relative z-10">
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/projects/:id" element={<ProjectDetailPage />} />
+            <Route path="/about" element={lazyPage(<AboutPage />)} />
+            <Route path="/projects" element={lazyPage(<ProjectsPage />)} />
+            <Route path="/projects/:id" element={lazyPage(<ProjectDetailPage />)} />
             <Route path="/work" element={<Navigate to="/projects" replace />} />
-            <Route path="/stack" element={<StackPage />} />
+            <Route path="/stack" element={lazyPage(<StackPage />)} />
             <Route path="/skills" element={<Navigate to="/stack" replace />} />
-            <Route path="/experience" element={<ExperiencePage />} />
-            <Route path="/ai-twin" element={<AITwinPage />} />
+            <Route path="/experience" element={lazyPage(<ExperiencePage />)} />
+            <Route path="/ai-twin" element={lazyPage(<AITwinPage />)} />
             <Route path="/ai" element={<Navigate to="/ai-twin" replace />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/contact" element={lazyPage(<ContactPage />)} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AnimatePresence>
@@ -102,10 +107,11 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <TooltipProvider delayDuration={250}>
         <ChatProvider>
-          <HashRouter>
+          <BrowserRouter>
+            <RouteSeo />
             <ScrollToTop />
             <MainLayout />
-          </HashRouter>
+          </BrowserRouter>
         </ChatProvider>
       </TooltipProvider>
     </MotionConfig>

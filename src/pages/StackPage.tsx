@@ -112,7 +112,7 @@ export function StackPage() {
 
         {/* Dynamic Detail Card */}
         <div className="relative z-10 mx-auto -mt-2 max-w-5xl">
-          <div className="min-h-[190px] rounded-3xl border border-white/[0.08] bg-panel/85 p-6 sm:p-8 shadow-2xl shadow-black/40 backdrop-blur-xl">
+          <div className="min-h-[190px] rounded-3xl border border-white/[0.08] bg-panel/95 p-6 sm:p-8 shadow-2xl shadow-black/40">
             <AnimatePresence mode="wait" initial={false}>
               {active ? (
                 <TechDetails
@@ -145,27 +145,18 @@ export function StackPage() {
 
             <div className="grid gap-6 md:grid-cols-3 overflow-x-clip">
               {profile.skillGroups.map((group, idx) => {
-                const col = idx % 3; // 0 = left, 1 = middle, 2 = right
                 const Icon = GROUP_ICONS[group.id];
-
-                const initial =
-                  col === 0
-                    ? { opacity: 0, x: -110, scale: 0.96 }
-                    : col === 2
-                    ? { opacity: 0, x: 110, scale: 0.96 }
-                    : { opacity: 0, x: 0, scale: 0.88 };
 
                 return (
                   <motion.div
                     key={group.id}
-                    initial={initial}
-                    whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                    initial={{ opacity: 0, y: 28 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '0px 0px -30px 0px' }}
-                    whileHover={{ y: -6, scale: 1.015 }}
-                    transition={{ duration: 0.95, delay: col === 1 ? 0.14 : 0, ease: EASE }}
+                    transition={{ duration: 0.6, delay: idx * 0.08, ease: EASE }}
                     className="h-full"
                   >
-                    <SpotlightCard className="group flex flex-col h-full p-6 transition-all duration-300 hover:border-orange-400/30 hover:shadow-2xl hover:shadow-orange-500/5">
+                    <SpotlightCard className="group flex flex-col h-full p-6 transition-all duration-300 hover:-translate-y-1 hover:border-orange-400/30 hover:shadow-2xl hover:shadow-orange-500/5">
                       <div className="flex items-center gap-3">
                         <span className="grid h-10 w-10 place-items-center rounded-xl border border-orange-400/25 bg-orange-400/10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
                           <Icon className="h-5 w-5 text-orange-300" />
@@ -189,11 +180,12 @@ export function StackPage() {
                             </div>
                             <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
                               <motion.div
-                                className="h-full rounded-full bg-linear-to-r from-orange-600 via-orange-500 to-amber-400"
-                                initial={{ width: 0 }}
-                                whileInView={{ width: `${s.level}%` }}
+                                className="h-full origin-left rounded-full bg-linear-to-r from-orange-600 via-orange-500 to-amber-400"
+                                style={{ width: `${s.level}%`, willChange: 'transform' }}
+                                initial={{ scaleX: 0 }}
+                                whileInView={{ scaleX: 1 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 1.15, delay: sIdx * 0.09, ease: EASE }}
+                                transition={{ duration: 0.8, delay: 0.15 + sIdx * 0.06, ease: EASE }}
                               />
                             </div>
                           </div>
@@ -206,14 +198,12 @@ export function StackPage() {
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {group.extras.map((extra) => (
-                            <motion.span
+                            <span
                               key={extra}
-                              whileHover={{ scale: 1.08, y: -1 }}
-                              transition={{ duration: 0.15 }}
-                              className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 font-mono text-[10px] text-gray-400 hover:border-orange-400/30 hover:text-orange-200"
+                              className="rounded-md border border-white/[0.06] bg-white/[0.02] px-2 py-0.5 font-mono text-[10px] text-gray-400 transition duration-150 hover:-translate-y-px hover:scale-105 hover:border-orange-400/30 hover:text-orange-200"
                             >
                               {extra}
-                            </motion.span>
+                            </span>
                           ))}
                         </div>
                       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, ArrowUp, Download, MapPin, Rocket, ShieldCheck, Sparkles, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,8 @@ import { profile } from '../../data/profile';
 import { useChat } from '../../hooks/use-chat';
 import { Button } from '../ui/button';
 import { EASE, GithubIcon, LinkedinIcon } from '../shared';
-import ParticleField from '../ParticleField';
+// Three.js + drei are heavy: keep them out of the entry chunk.
+const ParticleField = lazy(() => import('../ParticleField'));
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
@@ -43,7 +44,9 @@ export function Hero() {
       {/* Atmospheric Background */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 opacity-80">
-          <ParticleField active={inView} />
+          <Suspense fallback={null}>
+            <ParticleField active={inView} />
+          </Suspense>
         </div>
         <div className="bg-grid fade-radial absolute inset-0 opacity-70" />
         <div className="absolute left-1/2 top-[-12%] h-[520px] w-[860px] -translate-x-1/2 rounded-full bg-orange-500/[0.13] blur-[120px]" />

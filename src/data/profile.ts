@@ -369,8 +369,8 @@ export const profile = {
   links: {
     github: 'https://github.com/sudipto39',
     githubShort: 'github.com/sudipto39',
-    linkedin: 'https://www.linkedin.com/in/sudipto-gayen',
-    linkedinShort: 'in/sudipto-gayen',
+    linkedin: 'https://www.linkedin.com/in/sudipto-gayen-7416b622b',
+    linkedinShort: 'in/sudipto-gayen-7416b622b',
   },
   headlineBio:
     'Backend and full-stack developer with production experience building cloud-native systems using Node.js, TypeScript, and GCP. Built GiteaForge (academic Git & LMS platform with 129 REST APIs across 14 modules) and ShopXpress (25+ production REST APIs).',

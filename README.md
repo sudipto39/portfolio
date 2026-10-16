@@ -106,7 +106,7 @@ portfolio/
 
 **Sudipto Gayen**
 - **GitHub**: [@sudipto39](https://github.com/sudipto39)
-- **LinkedIn**: [linkedin.com/in/sudipto-gayen](https://www.linkedin.com/in/sudipto-gayen-89a3a1290/)
+- **LinkedIn**: [linkedin.com/in/sudipto-gayen-7416b622b](https://www.linkedin.com/in/sudipto-gayen-7416b622b)
 - **Email**: [sudiptogayen404@gmail.com](mailto:sudiptogayen404@gmail.com)
 
 ---

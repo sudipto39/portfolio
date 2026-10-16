@@ -113,7 +113,14 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
     typeof window !== 'undefined' ? Math.min(1000, Math.max(320, window.innerWidth - 64)) : 1000
   );
   const reduced = useReducedMotion() ?? false;
-  const entered = useInView(wrapRef, { once: true, amount: 0.05 });
+  const seen = useInView(wrapRef, { once: true, amount: 0.05 });
+  // Hold the intro until the route transition has settled so the two never fight for frames.
+  const [entered, setEntered] = useState(false);
+  useEffect(() => {
+    if (!seen) return;
+    const id = window.setTimeout(() => setEntered(true), 380);
+    return () => window.clearTimeout(id);
+  }, [seen]);
   const visible = useInView(wrapRef, { amount: 0.02 });
 
   useLayoutEffect(() => {
@@ -148,13 +155,13 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
     const idle = window.setInterval(() => {
       if (!pool.length) return;
       const index = pool[Math.floor(Math.random() * pool.length)];
-      setPulses((p) => [...p.slice(-10), { key: ++pulseKey.current, index, strong: false }]);
-    }, 650);
+      setPulses((p) => [...p.slice(-4), { key: ++pulseKey.current, index, strong: false }]);
+    }, 950);
     const focused =
       activeIndex >= 0
         ? window.setInterval(() => {
-            setPulses((p) => [...p.slice(-10), { key: ++pulseKey.current, index: activeIndex, strong: true }]);
-          }, 420)
+            setPulses((p) => [...p.slice(-4), { key: ++pulseKey.current, index: activeIndex, strong: true }]);
+          }, 720)
         : 0;
     return () => {
       window.clearInterval(idle);
@@ -219,9 +226,6 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
                 <stop offset="0" stopColor="#fdba74" stopOpacity="0.9" />
                 <stop offset="1" stopColor="#f97316" stopOpacity="0" />
               </radialGradient>
-              <filter id="wire-glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="3" />
-              </filter>
             </defs>
 
             {[...layout.orbits, ...layout.rings].map((o, i) => (
@@ -234,9 +238,9 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
                 fill="none"
                 stroke="url(#orbit)"
                 strokeWidth={i < layout.orbits.length ? 1.3 : 1}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={entered ? { pathLength: 1, opacity: 1 } : undefined}
-                transition={{ duration: 1.8, delay: 0.5 + i * 0.12, ease: EASE }}
+                initial={{ opacity: 0 }}
+                animate={entered ? { opacity: 1 } : undefined}
+                transition={{ duration: 0.9, delay: 0.1 + i * 0.08, ease: EASE }}
               />
             ))}
 
@@ -254,7 +258,7 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
                 strokeWidth={layout.compact ? 1.1 : 1.2}
                 initial={{ pathLength: 0 }}
                 animate={entered ? { pathLength: 1, opacity: inFilter(n.tech) ? 1 : 0.14 } : undefined}
-                transition={{ pathLength: { duration: 1.2, delay: 0.35 + n.index * 0.05, ease: EASE }, opacity: { duration: 0.3 } }}
+                transition={{ pathLength: { duration: 0.7, delay: 0.1 + n.index * 0.03, ease: EASE }, opacity: { duration: 0.3 } }}
               />
             ))}
 
@@ -264,10 +268,9 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
                   d={nodes[activeIndex].d}
                   fill="none"
                   stroke="#fb923c"
-                  strokeWidth={5}
-                  filter="url(#wire-glow)"
+                  strokeWidth={8}
                   initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 0.7 }}
+                  animate={{ pathLength: 1, opacity: 0.22 }}
                   transition={{ duration: 0.45, ease: EASE }}
                 />
                 <motion.path
@@ -302,7 +305,8 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
             <motion.span
               aria-hidden
               className="absolute inset-0 rounded-full"
-              animate={reduced ? undefined : { boxShadow: ['0 0 60px rgba(234,88,12,0.35)', '0 0 95px rgba(234,88,12,0.55)', '0 0 60px rgba(234,88,12,0.35)'] }}
+              style={{ boxShadow: '0 0 95px rgba(234,88,12,0.55)', willChange: 'opacity' }}
+              animate={reduced ? undefined : { opacity: [0.55, 1, 0.55] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             />
             <span
@@ -314,9 +318,9 @@ export function StackOrbit({ filter, activeId, onInspect, onReset }: StackOrbitP
                 {active ? (
                   <motion.span
                     key={active.id}
-                    initial={{ opacity: 0, scale: 0.85, filter: 'blur(4px)' }}
-                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.22 }}
                     className="flex flex-col items-center"
                   >
@@ -391,16 +395,25 @@ const TechNode = memo(function TechNode({
 }) {
   const { tech } = node;
   const inspect = () => onInspect(tech.id);
+  // Hover intent: sweeping across nodes shouldn't re-render the whole scene for each one.
+  const hoverTimer = useRef<number>(0);
+  const onEnter = () => {
+    window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = window.setTimeout(inspect, 70);
+  };
+  const onLeave = () => window.clearTimeout(hoverTimer.current);
+  useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
   // Stagger only the entrance; afterwards hover/active changes must respond instantly.
   const [introDone, setIntroDone] = useState(false);
-  const delay = introDone ? 0 : 0.05 + node.index * 0.04;
+  const delay = introDone ? 0 : 0.03 + node.index * 0.025;
 
   return (
     <motion.button
       type="button"
       aria-label={`${tech.name}, ${tech.level} out of 100`}
       aria-pressed={active}
-      onMouseEnter={inspect}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
       onFocus={inspect}
       onClick={inspect}
       initial={{ opacity: 0, y: -14, scale: 0.6 }}
@@ -516,9 +529,13 @@ function OrbitIcons({ layout, running }: { layout: Layout; running: boolean }) {
 
   useEffect(() => place(elapsed.current), [place]);
 
+  const lastPlaced = useRef(0);
   useAnimationFrame((_, delta) => {
     if (!runningRef.current) return;
     elapsed.current += Math.min(delta, 64) / 1000;
+    // ~30fps is plenty for slow orbital drift and halves the SVG work.
+    if (elapsed.current - lastPlaced.current < 0.032) return;
+    lastPlaced.current = elapsed.current;
     place(elapsed.current);
   });
 
@@ -567,7 +584,7 @@ function CoreRing({ r, level }: { r: number; level: number }) {
         initial={false}
         animate={{ strokeDashoffset: c * (1 - level / 100), opacity: level ? 1 : 0 }}
         transition={{ duration: 0.7, ease: EASE }}
-        style={{ filter: 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' }}
+        style={{ willChange: 'stroke-dashoffset' }}
       />
     </svg>
   );

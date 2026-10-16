@@ -147,7 +147,7 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
                 GitHub <span className="text-gray-500 font-mono text-[10px]">github.com/sudipto39</span>
               </Item>
               <Item value="linkedin" icon={<LinkedinIcon className="h-4 w-4" />} onSelect={() => openUrl(profile.links.linkedin)}>
-                LinkedIn <span className="text-gray-500 font-mono text-[10px]">in/sudipto-gayen</span>
+                LinkedIn <span className="text-gray-500 font-mono text-[10px]">in/sudipto-gayen-7416b622b</span>
               </Item>
             </Command.Group>
           </Command.List>

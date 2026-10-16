@@ -38,7 +38,7 @@ function generateParticles(count: number, seed: number) {
 export function PageBackground({ variant = 'default', className }: PageBackgroundProps) {
   const particles = useMemo(() => {
     const seed = variant.split('').reduce((acc, c) => acc + c.charCodeAt(0), 42);
-    return generateParticles(24, seed);
+    return generateParticles(14, seed);
   }, [variant]);
 
   return (
@@ -67,7 +67,7 @@ export function PageBackground({ variant = 'default', className }: PageBackgroun
         }}
         style={{
           background: 'radial-gradient(circle, rgba(251, 146, 60, 0.35) 0%, rgba(234, 88, 12, 0.12) 45%, transparent 70%)',
-          filter: 'blur(90px)',
+          willChange: 'transform, opacity',
         }}
         className="absolute -top-24 left-[10%] h-[480px] w-[480px] rounded-full sm:h-[620px] sm:w-[620px]"
       />
@@ -87,7 +87,7 @@ export function PageBackground({ variant = 'default', className }: PageBackgroun
         }}
         style={{
           background: 'radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, rgba(180, 83, 9, 0.1) 50%, transparent 70%)',
-          filter: 'blur(100px)',
+          willChange: 'transform, opacity',
         }}
         className="absolute top-1/3 -right-28 h-[520px] w-[520px] rounded-full sm:h-[680px] sm:w-[680px]"
       />
@@ -107,7 +107,7 @@ export function PageBackground({ variant = 'default', className }: PageBackgroun
         }}
         style={{
           background: 'radial-gradient(circle, rgba(217, 119, 87, 0.28) 0%, rgba(251, 146, 60, 0.08) 50%, transparent 70%)',
-          filter: 'blur(95px)',
+          willChange: 'transform, opacity',
         }}
         className="absolute bottom-1/4 -left-20 h-[450px] w-[450px] rounded-full sm:h-[600px] sm:w-[600px]"
       />
