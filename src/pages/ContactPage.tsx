@@ -96,22 +96,23 @@ export function ContactPage() {
     }
 
     try {
+      const payload: Record<string, string> = {
+        access_key: accessKey,
+        name: form.name.trim(),
+        email: form.email.trim(),
+        topic: form.topic,
+        message: form.message.trim(),
+        subject: `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`,
+        from_name: form.name.trim(),
+      };
+
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({
-          access_key: accessKey,
-          name: form.name.trim(),
-          email: form.email.trim(),
-          topic: form.topic,
-          message: form.message.trim(),
-          subject: `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`,
-          from_name: form.name.trim(),
-          botcheck: '',
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -123,12 +124,14 @@ export function ContactPage() {
         setIsSubmitted(true);
         setForm(EMPTY);
       } else {
+        console.error('[Web3Forms Error]', data);
         toast.error(data.message || 'Web3Forms submission failed. Opening email draft…');
         const subject = `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`;
         const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
         window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
-    } catch {
+    } catch (err) {
+      console.error('[Web3Forms Network Error]', err);
       toast.error('Network error contacting Web3Forms. Opening email draft as fallback…');
       const subject = `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`;
       const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
