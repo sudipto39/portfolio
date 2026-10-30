@@ -7,7 +7,8 @@ import { useChat } from '../../hooks/use-chat';
 import { cn } from '../../utils/cn';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '../ui/sheet';
-import { EASE, Kbd } from '../shared';
+import { EASE } from '../shared';
+import { ExpandableSearch } from '../ExpandableSearch';
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home' },
@@ -19,20 +20,16 @@ const NAV_ITEMS = [
   { path: '/contact', label: 'Contact' },
 ];
 
-export function Navbar({ onOpenCommand }: { onOpenCommand: () => void }) {
+export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
   const { setChatOpen } = useChat();
   const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isMac, setIsMac] = useState(true);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, 'change', (v) => setScrolled(v > 24));
-
-  useEffect(() => {
-    setIsMac(/Mac|iPhone|iPad/i.test(navigator.userAgent));
-  }, []);
 
   const isItemActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
@@ -100,17 +97,9 @@ export function Navbar({ onOpenCommand }: { onOpenCommand: () => void }) {
             })}
           </ul>
 
-          {/* Actions: Command palette, Ask AI, Mobile hamburger */}
+          {/* Actions: Expandable search icon, Ask AI, Mobile hamburger */}
           <div className="ml-auto flex items-center gap-2 md:ml-0">
-            <button
-              type="button"
-              onClick={onOpenCommand}
-              className="hidden h-9 items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.03] pl-3 pr-1.5 text-xs text-gray-400 transition hover:border-white/15 hover:text-gray-200 lg:flex"
-            >
-              <Search className="h-3.5 w-3.5" />
-              Search
-              <Kbd className="ml-4">{isMac ? '⌘' : 'Ctrl'} K</Kbd>
-            </button>
+            <ExpandableSearch isExpanded={isSearchExpanded} onExpandedChange={setIsSearchExpanded} />
             <Button size="sm" variant="gradient" className="h-9 rounded-lg px-3.5" onClick={() => setChatOpen(true)}>
               <Sparkles className="h-3.5 w-3.5" />
               Ask AI
@@ -160,10 +149,10 @@ export function Navbar({ onOpenCommand }: { onOpenCommand: () => void }) {
               className="w-full"
               onClick={() => {
                 setMobileOpen(false);
-                setTimeout(onOpenCommand, 200);
+                setTimeout(() => setIsSearchExpanded(true), 200);
               }}
             >
-              <Search className="h-4 w-4" /> Search &amp; commands
+              <Search className="h-4 w-4" /> Search pages &amp; projects
             </Button>
             <Button
               variant="gradient"

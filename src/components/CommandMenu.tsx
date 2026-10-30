@@ -117,7 +117,7 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
                 Use Google Gemini <span className="text-gray-500">Free API</span>
               </Item>
               <Item value="use groq high speed" icon={<GroqMark className="h-4 w-4 text-orange-400" />} onSelect={() => switchTo('groq')}>
-                Use Groq <span className="text-gray-500">Llama 3.3</span>
+                Use Groq <span className="text-gray-500">GPT-OSS 120B</span>
               </Item>
               <Item value="use offline demo" icon={<Cpu className="h-4 w-4 text-orange-300" />} onSelect={() => switchTo('demo')}>
                 Use offline demo engine

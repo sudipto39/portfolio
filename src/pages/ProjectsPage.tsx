@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Globe, Search, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { accents, profile, type Project, type ProjectCategory } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
 import { cn } from '../utils/cn';
@@ -14,8 +14,17 @@ type Filter = 'All' | ProjectCategory;
 const FILTERS: Filter[] = ['All', 'Distributed Systems', 'Data', 'APIs', 'Security'];
 
 export function ProjectsPage() {
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get('search') || searchParams.get('q') || '';
   const [filter, setFilter] = useState<Filter>('All');
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(initialSearch);
+
+  useEffect(() => {
+    const q = searchParams.get('search') || searchParams.get('q');
+    if (q !== null) {
+      setSearch(q);
+    }
+  }, [searchParams]);
 
   const list = useMemo(() => {
     return profile.projects.filter((p) => {

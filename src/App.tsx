@@ -9,7 +9,6 @@ import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { RouteSeo } from './components/RouteSeo';
 import { AILauncher } from './components/ai/AILauncher';
-import { CommandMenu } from './components/CommandMenu';
 import { CustomCursor } from './components/CustomCursor';
 import { AmbientGlow } from './components/shared';
 import { HomePage } from './pages/HomePage';
@@ -41,20 +40,7 @@ function ScrollProgress() {
 }
 
 function MainLayout() {
-  const [commandOpen, setCommandOpen] = useState(false);
   const location = useLocation();
-
-  // ⌘K / Ctrl+K opens the command palette from anywhere.
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setCommandOpen((open) => !open);
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-ink text-gray-100 flex flex-col justify-between">
@@ -71,7 +57,7 @@ function MainLayout() {
       </a>
 
       <ScrollProgress />
-      <Navbar onOpenCommand={() => setCommandOpen(true)} />
+      <Navbar />
 
       <main id="main" className="flex-1 relative z-10">
         <AnimatePresence mode="wait">
@@ -95,7 +81,6 @@ function MainLayout() {
       <Footer />
 
       <AILauncher />
-      <CommandMenu open={commandOpen} onOpenChange={setCommandOpen} />
       <CustomCursor />
       <Toaster theme="dark" position="bottom-center" richColors closeButton />
     </div>

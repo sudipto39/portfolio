@@ -114,11 +114,23 @@ function loadSettings(): AISettings {
       localStorage.getItem(KEYS_KEY) ?? sessionStorage.getItem(KEYS_KEY) ?? '{}'
     ) as Partial<Record<RemoteProvider, string>>;
     const provider = saved.provider && saved.provider in PROVIDERS ? saved.provider : base.provider;
+
+    // Discard any deprecated/offline models previously saved in localStorage
+    const geminiModel = PROVIDERS.gemini.models.some((m) => m.id === saved.models?.gemini)
+      ? saved.models?.gemini
+      : base.models.gemini;
+    const groqModel = PROVIDERS.groq.models.some((m) => m.id === saved.models?.groq)
+      ? saved.models?.groq
+      : base.models.groq;
+
     return {
       ...base,
       ...saved,
       provider,
-      models: { ...base.models, ...saved.models },
+      models: {
+        gemini: geminiModel ?? base.models.gemini,
+        groq: groqModel ?? base.models.groq,
+      },
       endpoints: { ...base.endpoints, ...saved.endpoints },
       extraModels: { ...base.extraModels, ...saved.extraModels },
       keys: { ...base.keys, ...keys },

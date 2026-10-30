@@ -29,7 +29,7 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     name: 'Google Gemini',
     vendor: 'Google AI Studio',
     tagline: '100% Free tier, ultra-fast & smart',
-    description: 'Google Gemini 2.0 & 1.5 Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD — zero cost, no credit card required.',
+    description: 'Google Gemini 3.8 Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD — zero cost, no credit card required.',
     host: 'generativelanguage.googleapis.com',
     defaultEndpoint: 'https://generativelanguage.googleapis.com',
     keyUrl: 'https://aistudio.google.com/app/apikey',
@@ -38,9 +38,9 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     accentBg: 'bg-sky-500/10',
     accentBorder: 'border-sky-500/35',
     models: [
-      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash', hint: 'Fastest & smartest (Free)' },
-      { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash', hint: 'Fast, reliable & 100% free' },
-      { id: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro', hint: 'Deeper reasoning & complex analysis' },
+      { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', hint: 'Fastest & smartest (Recommended)' },
+      { id: 'gemini-flash-latest', label: 'Gemini Flash Latest', hint: 'Latest stable Flash model (Free)' },
+      { id: 'gemini-pro-latest', label: 'Gemini Pro Latest', hint: 'Deep reasoning & complex analysis' },
     ],
   },
   groq: {
@@ -48,7 +48,7 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     name: 'Groq',
     vendor: 'GroqCloud',
     tagline: 'Ultra-fast inference, free forever',
-    description: 'Llama 3.3 & Llama 3.1 models via GroqCloud. Blazing fast inference with a generous free tier — no credit card required.',
+    description: 'High-speed open models via GroqCloud LPUs. Blazing fast inference with a generous free tier — no credit card required.',
     host: 'api.groq.com',
     defaultEndpoint: 'https://api.groq.com',
     keyUrl: 'https://console.groq.com/keys',
@@ -57,9 +57,9 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     accentBg: 'bg-violet-500/10',
     accentBorder: 'border-violet-500/35',
     models: [
-      { id: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B', hint: 'Best quality — ultra-fast (Free)' },
-      { id: 'llama-3.1-8b-instant', label: 'Llama 3.1 8B', hint: 'Fastest response time (Free)' },
-      { id: 'mixtral-8x7b-32768', label: 'Mixtral 8x7B', hint: 'Great reasoning & long context (Free)' },
+      { id: 'openai/gpt-oss-120b', label: 'GPT-OSS 120B', hint: 'Best reasoning & depth — ultra-fast (Free)' },
+      { id: 'openai/gpt-oss-20b', label: 'GPT-OSS 20B', hint: 'Blazing fast instant response (Free)' },
+      { id: 'qwen/qwen3.8-27b', label: 'Qwen 3.8 27B', hint: 'High intelligence & coding proficiency (Free)' },
     ],
   },
   demo: {
