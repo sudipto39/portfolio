@@ -29,7 +29,7 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     name: 'Google Gemini',
     vendor: 'Google AI Studio',
     tagline: '100% Free tier, ultra-fast & smart',
-    description: 'Google Gemini 3.8 Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD — zero cost, no credit card required.',
+    description: 'Google Gemini Flash-Lite & Flash models via Google AI Studio. Free 15 RPM / 1,500 RPD — zero cost, no credit card required.',
     host: 'generativelanguage.googleapis.com',
     defaultEndpoint: 'https://generativelanguage.googleapis.com',
     keyUrl: 'https://aistudio.google.com/app/apikey',
@@ -38,9 +38,9 @@ export const PROVIDERS: Record<ProviderId, ProviderMeta> = {
     accentBg: 'bg-sky-500/10',
     accentBorder: 'border-sky-500/35',
     models: [
-      { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', hint: 'Fastest & smartest (Recommended)' },
-      { id: 'gemini-flash-latest', label: 'Gemini Flash Latest', hint: 'Latest stable Flash model (Free)' },
-      { id: 'gemini-pro-latest', label: 'Gemini Pro Latest', hint: 'Deep reasoning & complex analysis' },
+      { id: 'gemini-flash-lite-latest', label: 'Gemini Flash Lite', hint: 'Ultra-fast (~1s response time), 100% free' },
+      { id: 'gemini-3.5-flash-lite', label: 'Gemini 3.5 Flash Lite', hint: 'Fast, responsive & lightweight' },
+      { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash', hint: 'Heavy reasoning model (slower)' },
     ],
   },
   groq: {

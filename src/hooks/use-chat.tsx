@@ -115,8 +115,9 @@ function loadSettings(): AISettings {
     ) as Partial<Record<RemoteProvider, string>>;
     const provider = saved.provider && saved.provider in PROVIDERS ? saved.provider : base.provider;
 
-    // Discard any deprecated/offline models previously saved in localStorage
-    const geminiModel = PROVIDERS.gemini.models.some((m) => m.id === saved.models?.gemini)
+    // Automatically migrate from slow CoT models to ultra-fast Gemini Flash-Lite
+    const isSlowGemini = saved.models?.gemini === 'gemini-3.8-flash' || saved.models?.gemini === 'gemini-flash-latest';
+    const geminiModel = !isSlowGemini && PROVIDERS.gemini.models.some((m) => m.id === saved.models?.gemini)
       ? saved.models?.gemini
       : base.models.gemini;
     const groqModel = PROVIDERS.groq.models.some((m) => m.id === saved.models?.groq)
