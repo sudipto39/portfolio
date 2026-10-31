@@ -39,7 +39,7 @@ export function Hero() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-12 pt-24 sm:pb-20 sm:pt-32 lg:pt-28"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-28 pb-14 sm:pt-36 sm:pb-20 lg:pt-32 lg:pb-20"
     >
       {/* Atmospheric Background */}
       <div aria-hidden className="absolute inset-0 -z-10">
@@ -54,8 +54,8 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-linear-to-b from-transparent to-ink" />
       </div>
 
-      <div className="mx-auto grid w-full max-w-[1620px] items-center gap-10 lg:gap-14 px-6 sm:px-10 lg:px-12 xl:px-16 lg:grid-cols-[1.2fr_0.8fr]">
-        <div>
+      <div className="my-auto mx-auto grid w-full max-w-[1620px] items-center gap-10 lg:gap-12 xl:gap-14 px-6 sm:px-10 lg:px-12 xl:px-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+        <div className="min-w-0">
           {/* Availability Badge */}
           <motion.div {...fadeUp(0)}>
             <Link
@@ -78,17 +78,17 @@ export function Hero() {
           {/* Headline */}
           <motion.h1
             {...fadeUp(0.08)}
-            className="mt-6 text-balance text-[2.5rem] font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[4.2rem] xl:text-[4.75rem]"
+            className="mt-5 sm:mt-6 text-balance text-[2.25rem] font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.5rem] xl:text-[4.15rem]"
           >
-            <span className="mb-2 block text-lg font-medium tracking-normal text-gray-400 sm:text-xl">
+            <span className="mb-2 block text-base sm:text-lg lg:text-xl font-medium tracking-normal text-gray-400">
               Hi, I&apos;m {profile.name} —
             </span>
             I build backends that <span className="text-gradient">scale quietly.</span>
           </motion.h1>
 
           {/* Requested Exact Profile Summary Paragraph */}
-          <motion.div {...fadeUp(0.16)} className="mt-6 max-w-2xl xl:max-w-3xl">
-            <p className="text-base sm:text-lg xl:text-xl leading-relaxed text-gray-300 font-normal">
+          <motion.div {...fadeUp(0.16)} className="mt-5 sm:mt-6 max-w-2xl xl:max-w-3xl">
+            <p className="text-sm sm:text-base lg:text-[17px] leading-relaxed text-gray-300 font-normal">
               Backend and full-stack developer with production experience building cloud-native systems using{' '}
               <strong className="font-semibold text-white">Node.js, TypeScript, and GCP</strong>. Built{' '}
               <strong className="font-semibold text-orange-300">GiteaForge</strong>, an academic Git management platform featuring{' '}
@@ -98,10 +98,10 @@ export function Hero() {
           </motion.div>
 
           {/* Requested Action Buttons Row: [🚀 VIEW PROJECTS] [📥 DOWNLOAD RESUME] CONTACT ME → */}
-          <motion.div {...fadeUp(0.24)} className="mt-8 flex flex-wrap items-center gap-4">
+          <motion.div {...fadeUp(0.24)} className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
             {/* VIEW PROJECTS */}
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-              <Button asChild size="lg" variant="gradient" className="h-12 px-6 rounded-xl font-mono text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20">
+              <Button asChild size="lg" variant="gradient" className="h-11 sm:h-12 px-5 sm:px-6 rounded-xl font-mono text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20">
                 <Link to="/projects" className="inline-flex items-center gap-2">
                   <Rocket className="h-4 w-4" />
                   View Projects
@@ -116,7 +116,7 @@ export function Hero() {
                 download={profile.resumeFilename}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 font-mono text-xs uppercase tracking-wider text-gray-200 shadow-md backdrop-blur-md transition hover:border-orange-400/40 hover:bg-white/[0.08] hover:text-white"
+                className="inline-flex h-11 sm:h-12 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-5 sm:px-6 font-mono text-xs uppercase tracking-wider text-gray-200 shadow-md backdrop-blur-md transition hover:border-orange-400/40 hover:bg-white/[0.08] hover:text-white"
               >
                 <Download className="h-4 w-4 text-orange-300" />
                 Download Resume
@@ -133,7 +133,7 @@ export function Hero() {
           </motion.div>
 
           {/* Requested NETWORK Bar */}
-          <motion.div {...fadeUp(0.30)} className="mt-7 flex flex-wrap items-center gap-2.5">
+          <motion.div {...fadeUp(0.30)} className="mt-5 sm:mt-6 flex flex-wrap items-center gap-2 sm:gap-2.5">
             <span className="font-mono text-xs uppercase tracking-widest text-gray-500 mr-1">
               Network:
             </span>
@@ -171,7 +171,7 @@ export function Hero() {
           </motion.div>
 
           {/* Inline AI ask bar */}
-          <motion.form {...fadeUp(0.36)} onSubmit={onSubmit} className="mt-8 max-w-2xl">
+          <motion.form {...fadeUp(0.36)} onSubmit={onSubmit} className="mt-6 sm:mt-8 max-w-2xl">
             <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-1.5 pl-4 shadow-2xl shadow-black/30 backdrop-blur-xl transition focus-within:border-orange-400/40 focus-within:bg-white/[0.06] focus-within:ring-4 focus-within:ring-orange-400/10">
               <Sparkles className="h-4 w-4 shrink-0 text-orange-300 animate-pulse" />
               <label htmlFor="hero-ask" className="sr-only">
@@ -183,7 +183,7 @@ export function Hero() {
                 onChange={(e) => setQuestion(e.target.value)}
                 autoComplete="off"
                 placeholder={`Ask my AI twin: “${placeholder}”`}
-                className="h-11 min-w-0 flex-1 bg-transparent text-[14.5px] text-white outline-none placeholder:text-gray-500"
+                className="h-10 sm:h-11 min-w-0 flex-1 bg-transparent text-sm sm:text-[14.5px] text-white outline-none placeholder:text-gray-500"
               />
               <Button type="submit" size="icon" variant="gradient" className="rounded-xl transition-transform hover:scale-105" aria-label="Ask my AI twin">
                 <ArrowUp className="h-4 w-4" />
@@ -206,8 +206,10 @@ export function Hero() {
           </motion.form>
         </div>
 
-        {/* Live Terminal Card */}
-        <TerminalCard />
+        {/* Live Terminal Card Column */}
+        <div className="min-w-0 w-full">
+          <TerminalCard />
+        </div>
       </div>
     </section>
   );
@@ -258,7 +260,7 @@ function TerminalCard() {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       whileHover={{ scale: 1.015 }}
       transition={{ duration: 1.15, delay: 0.35, ease: EASE }}
-      className="relative mx-auto w-full max-w-md lg:max-w-none"
+      className="relative mx-auto w-full max-w-lg lg:max-w-none min-w-0"
     >
       <div aria-hidden className="absolute -inset-px rounded-2xl bg-linear-to-br from-orange-400/40 via-white/5 to-amber-700/40" />
       <div className="relative overflow-hidden rounded-2xl bg-panel/90 shadow-2xl shadow-orange-500/10 backdrop-blur-xl transition-all duration-300 hover:border-orange-400/30">
@@ -296,14 +298,14 @@ function TerminalCard() {
       </div>
 
       {/* Floating Status Badges */}
-      <div className="absolute left-0 top-20 z-20 hidden -translate-x-1/2 sm:flex">
+      <div className="absolute -left-2 top-20 z-20 hidden lg:flex">
         <div className="animate-float flex items-center gap-2 rounded-xl border border-white/10 bg-panel/95 px-3 py-2 text-xs shadow-xl backdrop-blur">
           <Terminal className="h-3.5 w-3.5 text-amber-300" />
           <span className="text-gray-400">Judge0 Sandbox</span>
           <span className="font-mono text-white">8+ Languages</span>
         </div>
       </div>
-      <div className="absolute -right-3 bottom-8 hidden animate-float items-center gap-2 rounded-xl border border-white/10 bg-panel/90 px-3 py-2 text-xs shadow-xl backdrop-blur [animation-delay:1.8s] sm:flex">
+      <div className="absolute -right-2 bottom-8 hidden animate-float items-center gap-2 rounded-xl border border-white/10 bg-panel/90 px-3 py-2 text-xs shadow-xl backdrop-blur [animation-delay:1.8s] lg:flex">
         <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
         <span className="text-gray-400">HMAC Webhooks</span>
         <span className="font-mono text-white">Verified</span>
