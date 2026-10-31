@@ -178,7 +178,7 @@ const education: Education[] = [
     institution: 'The Neotia University',
     degree: 'B.Tech in Computer Science Engineering (Cybersecurity Specialization)',
     period: 'Aug 2023 – Jun 2027',
-    score: 'CGPA: 7.78 (till 5th Sem)',
+    score: 'CGPA: 7.85 (till 6th Sem)',
     location: 'Kolkata, West Bengal, India',
     details: 'Focus on cybersecurity, cryptography, computer networks, cloud computing, and operating systems.',
   },
@@ -218,7 +218,7 @@ const projects: Project[] = [
     id: 'giteaforge',
     title: 'GiteaForge — Academic Git & Project Management Platform',
     category: 'Distributed Systems',
-    year: '2024',
+    year: '2026',
     summary: 'Cloud-native academic Git & LMS platform engineered with 129 RESTful APIs (130 with Swagger UI) across 14 modules, featuring Judge0 code execution, HMAC webhooks, and hybrid Redis + PostgreSQL session architecture.',
     details:
       'Engineered an enterprise-grade backend featuring 129 RESTful APIs (130 including /api-docs Swagger UI) spanning 14 modular domains: Projects & Collaboration (21), Admin & System Management (15), Lab Assignments & Code Sandbox (15), Users & Credentials (11), Milestones & Submissions (9), Authentication & Sessions (8), Batches & Academic Roster (8), Supervisor Portal (8), Problem Statements (6), Gitea Repository Management (6), Courses (5), Activities & Heatmap (5), Execution Sandboxes & Webhooks (10), and Root/Monitoring (3). Architected a cloud-native CI/CD pipeline using GitHub Actions, Docker, and Google Artifact Registry to deploy containerized Express 5 services to GCP Cloud Run with automated Neon PostgreSQL migrations. Engineered a multi-language code sandbox integrating Judge0 execution engine on a GCP Compute Engine VM with Redis worker queues — supporting 8+ languages with isolated compilation, stdin simulation, and CPU/memory constraints. Built an HMAC-SHA256 verified Git webhook pipeline using timingSafeEqual to sync Gitea push events — auto-parsing commit logs, tracking code diffs, and auto-progressing milestone deliverables in real time. Designed fault-tolerant hybrid session architecture combining Redis token verification, HttpOnly SameSite cookie rotation, and PostgreSQL fallback.',
@@ -238,7 +238,7 @@ const projects: Project[] = [
     id: 'shopxpress',
     title: 'ShopXpress — Full-Stack E-Commerce Platform',
     category: 'APIs',
-    year: '2024',
+    year: '2025',
     summary: 'Full-stack MERN e-commerce platform with 25+ RESTful APIs, JWT auth, Admin/User RBAC, Admin Dashboard, and Razorpay payment flow with webhook verification.',
     details:
       'Engineered 25+ RESTful APIs across product catalog, shopping cart, authentication, and order processing during backend engineering internship at AiLabs. Integrated Razorpay payment flow with HMAC signature verification webhooks for tamper-proof order confirmations. Implemented role-based access control (RBAC) separating administrative inventory controls from customer operations. Deployed with responsive React UI, cart filters, and AWS cloud storage.',
@@ -254,6 +254,7 @@ const projects: Project[] = [
     featured: true,
     github: 'https://github.com/sudipto39',
   },
+  /*
   {
     id: 'cloudsec-vapt',
     title: 'Cloud Security & VAPT Audit Suite',
@@ -274,11 +275,12 @@ const projects: Project[] = [
     featured: true,
     github: 'https://github.com/sudipto39',
   },
+  */
   {
     id: 'judge0-sandbox',
     title: 'Judge0 Multi-Language Execution Microservice',
     category: 'Distributed Systems',
-    year: '2024',
+    year: '2026',
     summary: 'Containerized isolated execution environment supporting 8+ programming languages with CPU, memory, and timeout constraints.',
     details:
       'Engineered on GCP Compute Engine VM with Redis worker queues for asynchronous job orchestration. Enforces resource limits (time limit, memory limit, stack allocation) to safely evaluate untrusted student code submissions with real-time stdout/stderr capture.',
@@ -291,14 +293,14 @@ const projects: Project[] = [
     ],
     keywords: ['judge0', 'sandbox', 'code execution', 'compiler', 'redis queue', 'gcp', 'docker'],
     accent: 'amber',
-    featured: false,
+    featured: true,
     github: 'https://github.com/sudipto39',
   },
   {
     id: 'hmac-webhook-pipeline',
     title: 'HMAC-SHA256 Webhook Pipeline',
     category: 'Data',
-    year: '2024',
+    year: '2026',
     summary: 'Tamper-proof Git webhook event ingestion pipeline parsing commit diffs and triggering automated milestone actions in real time.',
     details:
       'Validates incoming Gitea payloads with crypto.timingSafeEqual to prevent timing attacks. Automatically parses commit messages, associates commit SHAs with project assignments, and writes audit records to Neon PostgreSQL with atomic transaction safety.',
@@ -314,33 +316,13 @@ const projects: Project[] = [
     featured: false,
     github: 'https://github.com/sudipto39',
   },
-  {
-    id: 'hybrid-session-engine',
-    title: 'Fault-Tolerant Hybrid Session Architecture',
-    category: 'Security',
-    year: '2024',
-    summary: 'Resilient authentication layer combining Redis token caching with PostgreSQL fallback and HttpOnly SameSite cookie rotation.',
-    details:
-      'Eliminates Redis as a single point of failure by gracefully falling back to PostgreSQL session validation during cache warmups or network blips, maintaining seamless login state for all active users without disruption.',
-    role: 'System Designer',
-    tech: ['Redis', 'PostgreSQL', 'Node.js', 'JWT', 'Cookies', 'Prisma'],
-    metrics: [
-      { label: 'Session Fallback', value: 'Automatic' },
-      { label: 'Cookie Security', value: 'HttpOnly' },
-      { label: 'Cache Hit Latency', value: '2ms' },
-    ],
-    keywords: ['session', 'redis', 'postgres', 'fallback', 'authentication', 'httponly'],
-    accent: 'rose',
-    featured: false,
-    github: 'https://github.com/sudipto39',
-  },
 ];
 
 const stats: Stat[] = [
   { value: 154, suffix: '+', label: 'Production REST APIs (129 LMS · 25+ ShopXpress)' },
   { value: 8, suffix: '+', label: 'Languages in Code Sandbox' },
   { value: 100, suffix: '%', label: 'HMAC Webhook Verification' },
-  { value: 7.78, decimals: 2, suffix: '', label: 'B.Tech CSE CGPA (Cybersecurity)' },
+  { value: 7.85, decimals: 2, suffix: '', label: 'B.Tech CSE CGPA (Cybersecurity)' },
 ];
 
 const principles: Principle[] = [
@@ -377,7 +359,7 @@ export const profile = {
   bio: [
     'I am a backend and full-stack developer with production experience building cloud-native systems using Node.js, TypeScript, and GCP. Built GiteaForge — an academic Git & LMS platform featuring 129 REST APIs (130 with /api-docs Swagger UI) across 14 modular domains, Judge0 multi-language code execution, HMAC-authenticated webhook pipelines, and fault-tolerant Redis + PostgreSQL session architecture.',
     'Engineered 25+ REST APIs for the ShopXpress e-commerce platform during my backend internship at AiLabs with zero critical failures. Also completed a cybersecurity internship at Dataspace Academy conducting web application VAPT against OWASP Top 10.',
-    'Currently pursuing B.Tech in Computer Science Engineering (Cybersecurity Specialization) at The Neotia University with a 7.78 CGPA (till 5th Sem). Passionate about cloud-native containerization, secure microservice architectures, and seeking full-time backend or full-stack software engineering opportunities.',
+    'Currently pursuing B.Tech in Computer Science Engineering (Cybersecurity Specialization) at The Neotia University with a 7.85 CGPA (till 6th Sem). Passionate about cloud-native containerization, secure microservice architectures, and seeking full-time backend or full-stack software engineering opportunities.',
   ],
   stats,
   principles,

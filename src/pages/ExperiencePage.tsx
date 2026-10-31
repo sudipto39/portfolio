@@ -32,11 +32,11 @@ export function ExperiencePage() {
   const { ask } = useChat();
 
   return (
-    <PageTransition className="relative pt-28 pb-24 sm:pt-36 sm:pb-32">
+    <PageTransition className="relative pt-20 pb-12 sm:pt-28 sm:pb-20 lg:pt-36 lg:pb-28">
       {/* Background Animated Milestone Pulse & Floating Embers */}
       <PageBackground variant="experience" />
 
-      <div className="mx-auto w-full max-w-[1500px] px-6 sm:px-10 lg:px-16 overflow-x-clip">
+      <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16 overflow-x-clip">
         {/* Header */}
         <SectionHeading
           eyebrow="Experience & Education"
@@ -96,7 +96,7 @@ export function ExperiencePage() {
               className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center transition-colors hover:border-orange-400/30 hover:bg-orange-400/[0.02]"
             >
               <div className="font-mono text-3xl font-bold text-emerald-300 sm:text-4xl">
-                <Counter value={7.78} decimals={2} />
+                <Counter value={7.85} decimals={2} />
               </div>
               <div className="mt-1.5 text-xs text-gray-400 sm:text-sm">B.Tech CSE CGPA (TNU)</div>
             </motion.div>

@@ -168,7 +168,7 @@ const resumeAnswer = () =>
     `📄 **Download My Resume**:`,
     `You can download my updated resume directly here: **[${profile.resumeFilename}](${profile.resumeUrl})**`,
     `Key highlights:`,
-    `- **Education**: B.Tech in CSE (Cybersecurity) @ The Neotia University (CGPA: 7.78 till 5th Sem)`,
+    `- **Education**: B.Tech in CSE (Cybersecurity) @ The Neotia University (CGPA: 7.85 till 6th Sem)`,
     `- **Industry & Projects**: GiteaForge LMS (129 REST APIs across 14 modules, 130 with Swagger UI) & ShopXpress (25+ production REST APIs @ AiLabs), plus Cybersecurity Intern @ Dataspace Academy (VAPT)`,
     `- **Flagship Project**: GiteaForge (GCP Cloud Run, Judge0 sandbox VM, HMAC-SHA256 webhooks, Redis + Postgres hybrid session)`,
     `- **Email**: [${profile.email}](mailto:${profile.email}) · **Phone**: ${profile.phone}`,
@@ -188,7 +188,7 @@ const thanks = () => 'Anytime! 🙌 Anything else — maybe a deep-dive into Git
 const fallback = () =>
   [
     'I don’t have a canned answer for that in **offline demo mode**. I can tell you about:',
-    `- my **projects** — e.g. GiteaForge (Judge0 sandbox, HMAC webhooks), ShopXpress, CloudSec VAPT Suite\n- my **stack** — Node.js, Express, TypeScript, PostgreSQL, Redis, Docker, GCP Cloud Run…\n- my **experience & internships** — AiLabs, Dataspace Academy\n- my **education & credentials** — The Neotia University (CGPA 7.78), Udemy Bootcamp, VAPT\n- my **resume** — download PDF`,
+    `- my **projects** — e.g. GiteaForge (Judge0 sandbox, HMAC webhooks), ShopXpress, CloudSec VAPT Suite\n- my **stack** — Node.js, Express, TypeScript, PostgreSQL, Redis, Docker, GCP Cloud Run…\n- my **experience & internships** — AiLabs, Dataspace Academy\n- my **education & credentials** — The Neotia University (CGPA 7.85), Udemy Bootcamp, VAPT\n- my **resume** — download PDF`,
     `For free-form questions, select **Google Gemini** or **Groq** — or email [${profile.email}](mailto:${profile.email}).`,
   ].join('\n\n');
 

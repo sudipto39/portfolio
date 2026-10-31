@@ -13,21 +13,21 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-white/[0.08] bg-ink/80 pt-16 pb-12">
-      <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16">
-        <div className="grid gap-10 md:grid-cols-4 pb-12 border-b border-white/[0.06]">
+    <footer className="relative border-t border-white/[0.08] bg-ink/80 pt-10 pb-8 sm:pt-14 sm:pb-12">
+      <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 pb-8 sm:pb-12 border-b border-white/[0.06]">
           {/* Col 1: Bio / Brand */}
-          <div className="md:col-span-2 space-y-4">
+          <div className="space-y-4">
             <Link to="/" className="group inline-flex items-center gap-2.5">
               <span className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 bg-white/[0.04] font-mono text-xs font-semibold text-orange-300 transition group-hover:rotate-6 group-hover:border-orange-400/40">
                 {profile.initials}
               </span>
-              <span className="text-base font-semibold tracking-tight text-white">
+              <span className="text-base xl:text-lg font-semibold tracking-tight text-white">
                 {profile.name}
                 <span className="text-orange-400">.</span>
               </span>
             </Link>
-            <p className="max-w-md text-sm leading-relaxed text-gray-400">
+            <p className="text-sm xl:text-base leading-relaxed text-gray-400">
               {profile.role} specialising in {profile.focus.toLowerCase()}. Designed for high throughput, strict consistency, and fault-tolerant operations.
             </p>
             <div className="flex items-center gap-3 pt-2">
@@ -77,58 +77,85 @@ export function Footer() {
 
           {/* Col 2: Navigation */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-gray-300">Navigation</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-mono text-xs xl:text-sm font-semibold uppercase tracking-wider text-orange-400">Navigation</h4>
+            <ul className="space-y-2 text-sm xl:text-base">
               <li>
-                <Link to="/" className="text-gray-400 transition-colors hover:text-orange-200">
+                <Link to="/" className="text-gray-400 transition-colors hover:text-white">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-400 transition-colors hover:text-orange-200">
+                <Link to="/about" className="text-gray-400 transition-colors hover:text-white">
                   About &amp; Principles
                 </Link>
               </li>
               <li>
-                <Link to="/projects" className="text-gray-400 transition-colors hover:text-orange-200">
+                <Link to="/projects" className="text-gray-400 transition-colors hover:text-white">
                   Selected Work
                 </Link>
               </li>
               <li>
-                <Link to="/stack" className="text-gray-400 transition-colors hover:text-orange-200">
+                <Link to="/stack" className="text-gray-400 transition-colors hover:text-white">
                   Stack &amp; Orbit
                 </Link>
               </li>
               <li>
-                <Link to="/experience" className="text-gray-400 transition-colors hover:text-orange-200">
+                <Link to="/experience" className="text-gray-400 transition-colors hover:text-white">
                   Experience
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Interactive & Contact */}
+          {/* Col 3: Systems & Work */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-gray-300">Connect</h4>
-            <ul className="space-y-2 text-sm">
+            <h4 className="font-mono text-xs xl:text-sm font-semibold uppercase tracking-wider text-orange-400">Systems</h4>
+            <ul className="space-y-2 text-sm xl:text-base">
               <li>
-                <Link to="/ai-twin" className="text-gray-400 transition-colors hover:text-orange-200">
+                <Link to="/projects/giteaforge" className="text-gray-400 transition-colors hover:text-white">
+                  GiteaForge LMS
+                </Link>
+              </li>
+              <li>
+                <Link to="/projects/judge0-sandbox" className="text-gray-400 transition-colors hover:text-white">
+                  Judge0 Code Sandbox
+                </Link>
+              </li>
+              <li>
+                <Link to="/projects/shopxpress" className="text-gray-400 transition-colors hover:text-white">
+                  ShopXpress Backend
+                </Link>
+              </li>
+              <li>
+                <Link to="/stack" className="text-gray-400 transition-colors hover:text-white">
+                  3D Tech Constellation
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Interactive & Contact */}
+          <div className="space-y-3">
+            <h4 className="font-mono text-xs xl:text-sm font-semibold uppercase tracking-wider text-orange-400">Connect</h4>
+            <ul className="space-y-2 text-sm xl:text-base">
+              <li>
+                <Link to="/ai-twin" className="text-gray-400 transition-colors hover:text-white">
                   AI Twin Studio
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-400 transition-colors hover:text-orange-200">
-                  Get in Touch
+                <Link to="/contact" className="text-gray-400 transition-colors hover:text-white">
+                  Send Direct Inquiry
                 </Link>
               </li>
               <li>
-                <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400">
+                <span className="inline-flex items-center gap-1.5 text-xs xl:text-sm text-emerald-400">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Available for contracts
+                  Available for full-time roles
                 </span>
               </li>
               <li>
-                <span className="text-xs text-gray-500 font-mono">
+                <span className="text-xs xl:text-sm text-gray-500 font-mono">
                   {profile.location} · {profile.timezone.split('—')[0].trim()}
                 </span>
               </li>
@@ -137,7 +164,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 text-xs text-gray-500 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 text-xs xl:text-sm text-gray-500 sm:flex-row">
           <p>© {new Date().getFullYear()} {profile.name}. All systems operational.</p>
           <p className="text-center sm:text-right text-gray-500">
             Engineered with React 19, Tailwind CSS &amp; Framer Motion

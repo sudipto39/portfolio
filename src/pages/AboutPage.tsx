@@ -15,11 +15,11 @@ export function AboutPage() {
   const { ask } = useChat();
 
   return (
-    <PageTransition className="relative pt-28 pb-24 sm:pt-36 sm:pb-32">
+    <PageTransition className="relative pt-20 pb-12 sm:pt-28 sm:pb-20 lg:pt-36 lg:pb-28">
       {/* Background Ambient Particles & Orbiting Ember Lights */}
       <PageBackground variant="about" />
 
-      <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16">
         {/* Page Header */}
         <SectionHeading
           eyebrow={`About ${profile.name}`}

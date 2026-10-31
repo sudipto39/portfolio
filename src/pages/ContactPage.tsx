@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import { Check, CheckCircle2, Clock, Copy, Download, Loader2, Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Check, CheckCircle2, Clock, Copy, Download, Loader2, Mail, MapPin, Phone, RotateCcw, Send, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { profile } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -33,7 +33,7 @@ function validate(f: FormState): Partial<Record<FieldName, string>> {
 }
 
 export function ContactPage() {
-  const { ask } = useChat();
+  const { ask, setChatOpen } = useChat();
   const [form, setForm] = useState<FormState>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [copied, setCopied] = useState(false);
@@ -41,6 +41,7 @@ export function ContactPage() {
   const [time, setTime] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedInfo, setSubmittedInfo] = useState<{ name: string; email: string; topic: string } | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -80,6 +81,9 @@ export function ContactPage() {
 
     setIsSubmitting(true);
     const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim();
+    const submittedName = form.name.trim();
+    const submittedEmail = form.email.trim();
+    const submittedTopic = form.topic;
 
     if (!accessKey) {
       // Fallback: If access key is not yet set in .env, launch mailto draft gracefully
@@ -89,6 +93,7 @@ export function ContactPage() {
       const subject = `[Portfolio Inquiry] ${form.topic} — from ${form.name.trim()}`;
       const body = `${form.message.trim()}\n\n— ${form.name.trim()} (${form.email.trim()})`;
       window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setSubmittedInfo({ name: submittedName, email: submittedEmail, topic: submittedTopic });
       setIsSubmitted(true);
       setForm(EMPTY);
       setIsSubmitting(false);
@@ -118,9 +123,10 @@ export function ContactPage() {
       const data = await response.json();
 
       if (data.success) {
-        toast.success('Message sent successfully via Web3Forms!', {
+        toast.success('Message sent successfully !!', {
           description: "Thank you for reaching out! Sudipto has received your message in his inbox.",
         });
+        setSubmittedInfo({ name: submittedName, email: submittedEmail, topic: submittedTopic });
         setIsSubmitted(true);
         setForm(EMPTY);
       } else {
@@ -164,11 +170,11 @@ export function ContactPage() {
   };
 
   return (
-    <PageTransition className="relative pt-28 pb-24 sm:pt-36 sm:pb-32">
+    <PageTransition className="relative pt-20 pb-12 sm:pt-28 sm:pb-20 lg:pt-36 lg:pb-28">
       {/* Background Animated Beacon Waves & Floating Embers */}
       <PageBackground variant="contact" />
 
-      <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16">
         {/* Header */}
         <SectionHeading
           eyebrow="Contact & Collaboration"
@@ -317,116 +323,162 @@ export function ContactPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.95, delay: 0.12, ease: EASE }}
           >
-            <form
-              onSubmit={onSubmit}
-              noValidate
-              className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-2xl shadow-black/30 backdrop-blur-sm sm:p-8 transition-colors hover:border-white/[0.14]"
-            >
-              {/* Web3Forms Anti-Spam Honeypot */}
-              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
-
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-xl font-bold text-white">Send a Direct Message</h3>
-                <span className="rounded-full border border-orange-400/25 bg-orange-400/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-orange-300">
-                  Web3Forms
-                </span>
-              </div>
-              <AnimatedParagraph delay={0.05} className="mt-1 text-xs text-gray-400">
-                Delivered directly to my inbox via Web3Forms with instant email notification.
-              </AnimatedParagraph>
-
-              {isSubmitted && (
-                <motion.div
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-5 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4 text-emerald-200 text-xs flex items-center justify-between gap-3"
-                >
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Message delivered to Sudipto's inbox! Expect a response within a few hours.</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setIsSubmitted(false)}
-                    className="text-[11px] underline text-emerald-300 hover:text-white shrink-0"
-                  >
-                    Send another
-                  </button>
-                </motion.div>
-              )}
-
-              {/* Topic Pills */}
-              <div className="mt-6">
-                <label className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-gray-400">
-                  Topic of Discussion
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {TOPICS.map((topic) => (
-                    <motion.button
-                      key={topic}
-                      type="button"
-                      onClick={() => setForm((f) => ({ ...f, topic }))}
-                      whileHover={{ scale: 1.04 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`relative isolate rounded-xl border px-3.5 py-1.5 text-xs transition-colors ${
-                        form.topic === topic
-                          ? 'border-orange-400/40 text-orange-200'
-                          : 'border-white/[0.08] bg-white/[0.02] text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      {form.topic === topic && (
-                        <motion.span
-                          layoutId="contact-topic-pill"
-                          className="absolute inset-0 -z-10 rounded-xl bg-orange-400/[0.15]"
-                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                        />
-                      )}
-                      {topic}
-                    </motion.button>
-                  ))}
+            <div className="relative rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 shadow-2xl shadow-black/30 backdrop-blur-sm sm:p-8 transition-colors hover:border-white/[0.14]">
+              {/* Header section matching reference screenshot */}
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-orange-400">
+                  <span className="h-0.5 w-5 rounded-full bg-orange-400" />
+                  <span>Direct Message</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-orange-400/25 bg-orange-400/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-orange-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-orange-400 animate-pulse" />
+                  Direct Advisory Channel
                 </div>
               </div>
 
-              {/* Fields */}
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <Field id="contact-name" label="Your Name" error={errors.name}>
-                  <Input id="contact-name" placeholder="Engineering Lead / Recruiter" {...field('name')} />
-                </Field>
-                <Field id="contact-email" label="Your Email" error={errors.email}>
-                  <Input id="contact-email" type="email" placeholder="recruiter@company.com" {...field('email')} />
-                </Field>
-              </div>
+              <h3 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                Send an inquiry.
+              </h3>
+              <p className="mt-2 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                Fill out the form below. Sudipto will review your message and reply within a few hours.
+              </p>
 
-              <Field id="contact-message" label="Opportunity or Project Details" error={errors.message} className="mt-4">
-                <Textarea
-                  id="contact-message"
-                  rows={5}
-                  placeholder="Tell me about the team, tech stack, role expectations, or interview process…"
-                  {...field('message')}
-                />
-              </Field>
+              <AnimatePresence mode="wait">
+                {isSubmitted && submittedInfo ? (
+                  <motion.div
+                    key="thank-you-view"
+                    initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -16, scale: 0.98 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    className="mt-8 rounded-2xl border border-orange-400/20 bg-gradient-to-b from-orange-500/[0.08] via-orange-500/[0.03] to-transparent p-8 sm:p-12 text-center shadow-inner"
+                  >
+                    <div className="inline-block font-mono text-[11px] font-bold uppercase tracking-widest text-orange-400">
+                      Message Received
+                    </div>
 
-              <div className="mt-6 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
-                <p className="font-mono text-[11px] text-gray-500">
-                  Powered by Web3Forms · Instant delivery to inbox
-                </p>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button type="submit" variant="gradient" size="lg" disabled={isSubmitting} className="group">
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin mr-2 text-white" />
-                        Delivering…
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-                </motion.div>
-              </div>
-            </form>
+                    <h4 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                      Thank you, {submittedInfo.name}.
+                    </h4>
+
+                    <p className="mt-4 text-sm sm:text-base text-gray-300 leading-relaxed max-w-lg mx-auto">
+                      Your inquiry regarding{' '}
+                      <strong className="font-semibold text-white text-orange-200">
+                        {submittedInfo.topic}
+                      </strong>{' '}
+                      has been received. Sudipto will review your message and respond shortly at{' '}
+                      <strong className="font-semibold text-white underline decoration-orange-400/40 underline-offset-4">
+                        {submittedInfo.email}
+                      </strong>
+                      .
+                    </p>
+
+                    <div className="mt-8 flex justify-center">
+                      <motion.button
+                        type="button"
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.96 }}
+                        onClick={() => {
+                          setIsSubmitted(false);
+                          setSubmittedInfo(null);
+                        }}
+                        className="inline-flex items-center gap-2 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/[0.15] hover:border-orange-400/40 px-7 py-3 text-sm font-semibold text-white shadow-xl transition-all"
+                      >
+                        <RotateCcw className="h-4 w-4 text-orange-300" />
+                        Send Another Note
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form-view"
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -16 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    onSubmit={onSubmit}
+                    noValidate
+                    className="mt-6"
+                  >
+                    {/* Web3Forms Anti-Spam Honeypot */}
+                    <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+
+                    {/* Topic Pills */}
+                    <div>
+                      <label className="mb-2 block font-mono text-[11px] uppercase tracking-wider text-gray-400">
+                        Topic of Discussion
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {TOPICS.map((topic) => (
+                          <motion.button
+                            key={topic}
+                            type="button"
+                            onClick={() => setForm((f) => ({ ...f, topic }))}
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`relative isolate rounded-xl border px-3.5 py-1.5 text-xs transition-colors ${
+                              form.topic === topic
+                                ? 'border-orange-400/40 text-orange-200'
+                                : 'border-white/[0.08] bg-white/[0.02] text-gray-400 hover:text-white'
+                            }`}
+                          >
+                            {form.topic === topic && (
+                              <motion.span
+                                layoutId="contact-topic-pill"
+                                className="absolute inset-0 -z-10 rounded-xl bg-orange-400/[0.15]"
+                                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                              />
+                            )}
+                            {topic}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Fields */}
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                      <Field id="contact-name" label="Your Name" error={errors.name}>
+                        <Input id="contact-name" placeholder="Engineering Lead / Recruiter" {...field('name')} />
+                      </Field>
+                      <Field id="contact-email" label="Your Email" error={errors.email}>
+                        <Input id="contact-email" type="email" placeholder="recruiter@company.com" {...field('email')} />
+                      </Field>
+                    </div>
+
+                    <Field id="contact-message" label="Opportunity or Project Details" error={errors.message} className="mt-4">
+                      <Textarea
+                        id="contact-message"
+                        rows={5}
+                        placeholder="Tell me about the team, tech stack, role expectations, or interview process…"
+                        {...field('message')}
+                      />
+                    </Field>
+
+                    <div className="mt-6 flex flex-col-reverse items-start justify-between gap-4 sm:flex-row sm:items-center">
+                      <p className="font-mono text-[11px] text-gray-500">
+                        {/* Powered by Web3Forms · Instant delivery to inbox */}
+                         Instant delivery to inbox
+                      </p>
+                      <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                        <Button type="submit" variant="gradient" size="lg" disabled={isSubmitting} className="group">
+                          {isSubmitting ? (
+                            <>
+                              <Loader2 className="h-4 w-4 animate-spin mr-2 text-white" />
+                              Delivering…
+                            </>
+                          ) : (
+                            <>
+                              <Send className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                              Send Message
+                            </>
+                          )}
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </div>

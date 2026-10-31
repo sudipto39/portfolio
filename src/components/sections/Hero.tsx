@@ -39,7 +39,7 @@ export function Hero() {
     <section
       id="home"
       ref={sectionRef}
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-24 pt-32 lg:pt-28"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-12 pt-24 sm:pb-20 sm:pt-32 lg:pt-28"
     >
       {/* Atmospheric Background */}
       <div aria-hidden className="absolute inset-0 -z-10">
@@ -54,7 +54,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-linear-to-b from-transparent to-ink" />
       </div>
 
-      <div className="mx-auto grid w-full max-w-[1700px] items-center gap-12 px-6 sm:px-10 lg:px-16 lg:grid-cols-[1.25fr_0.75fr]">
+      <div className="mx-auto grid w-full max-w-[1620px] items-center gap-10 lg:gap-14 px-6 sm:px-10 lg:px-12 xl:px-16 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           {/* Availability Badge */}
           <motion.div {...fadeUp(0)}>
@@ -78,7 +78,7 @@ export function Hero() {
           {/* Headline */}
           <motion.h1
             {...fadeUp(0.08)}
-            className="mt-6 text-balance text-[2.5rem] font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[4.2rem]"
+            className="mt-6 text-balance text-[2.5rem] font-semibold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[4.2rem] xl:text-[4.75rem]"
           >
             <span className="mb-2 block text-lg font-medium tracking-normal text-gray-400 sm:text-xl">
               Hi, I&apos;m {profile.name} —
@@ -87,8 +87,8 @@ export function Hero() {
           </motion.h1>
 
           {/* Requested Exact Profile Summary Paragraph */}
-          <motion.div {...fadeUp(0.16)} className="mt-6 max-w-2xl">
-            <p className="text-base sm:text-lg leading-relaxed text-gray-300 font-normal">
+          <motion.div {...fadeUp(0.16)} className="mt-6 max-w-2xl xl:max-w-3xl">
+            <p className="text-base sm:text-lg xl:text-xl leading-relaxed text-gray-300 font-normal">
               Backend and full-stack developer with production experience building cloud-native systems using{' '}
               <strong className="font-semibold text-white">Node.js, TypeScript, and GCP</strong>. Built{' '}
               <strong className="font-semibold text-orange-300">GiteaForge</strong>, an academic Git management platform featuring{' '}
@@ -229,7 +229,7 @@ const RESPONSE: Token[][] = [
   [['  "role"', KEY], [': ', PUNC], [JSON.stringify(profile.role), STR], [',', PUNC]],
   [['  "flagship_project"', KEY], [': ', PUNC], ['"GiteaForge LMS"', STR], [',', PUNC]],
   [['  "stack"', KEY], [': [', PUNC], ['"Node.js"', STR], [', ', PUNC], ['"TypeScript"', STR], [', ', PUNC], ['"GCP"', STR], ['],', PUNC]],
-  [['  "cgpa"', KEY], [': ', PUNC], ['7.78', NUM], [',', PUNC]],
+  [['  "cgpa"', KEY], [': ', PUNC], ['7.85', NUM], [',', PUNC]],
   [['  "lms_apis"', KEY], [': ', PUNC], ['129', NUM], [',', PUNC]],
   [['  "shopxpress_apis"', KEY], [': ', PUNC], ['"25+"', STR], [',', PUNC]],
   [['  "total_apis"', KEY], [': ', PUNC], ['"150+"', STR], [',', PUNC]],

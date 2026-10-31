@@ -143,11 +143,11 @@ export function ExpandableSearch({
           // EXPANDED SEARCH BAR ONLY (smooth inline expansion, no dropdown, no popup window)
           <motion.div
             key="search-expanded-bar"
-            initial={{ width: 36, opacity: 0.6 }}
-            animate={{ width: 280, opacity: 1 }}
-            exit={{ width: 36, opacity: 0 }}
-            transition={{ duration: 0.22, ease: EASE }}
-            className="relative flex h-9 w-52 sm:w-64 md:w-72 items-center rounded-lg border border-orange-500/35 bg-panel/95 pl-2.5 pr-1.5 shadow-lg shadow-black/30 ring-1 ring-orange-500/20"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: EASE }}
+            className="relative flex h-9 w-36 sm:w-64 md:w-72 items-center rounded-lg border border-orange-500/35 bg-panel/95 pl-2.5 pr-1.5 shadow-lg shadow-black/30 ring-1 ring-orange-500/20"
           >
             <Search className="h-3.5 w-3.5 shrink-0 text-orange-400" />
             <input

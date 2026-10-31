@@ -24,7 +24,7 @@ export function AILauncher() {
             whileHover={{ y: -3 }}
             whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 420, damping: 30 }}
-            className="fixed bottom-5 right-5 z-40 flex items-center gap-2.5 rounded-full border border-white/10 bg-panel/85 py-2 pl-2 pr-4 text-sm font-medium text-white shadow-2xl shadow-orange-500/20 backdrop-blur-xl sm:bottom-6 sm:right-6"
+            className="fixed bottom-5 right-5 z-40 hidden sm:flex items-center gap-2.5 rounded-full border border-white/10 bg-panel/85 py-2 pl-2 pr-4 text-sm font-medium text-white shadow-2xl shadow-orange-500/20 backdrop-blur-xl sm:bottom-6 sm:right-6"
             aria-label={`Ask ${profile.firstName}'s AI twin`}
           >
             <span className="relative grid h-9 w-9 place-items-center rounded-full bg-linear-to-br from-orange-300 to-amber-600">

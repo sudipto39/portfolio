@@ -19,20 +19,20 @@ export function HomePage() {
       <TechMarquee />
 
       {/* Production Stats Row */}
-      <section className="relative border-b border-white/[0.06] bg-white/[0.01] py-16">
-        <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16">
-          <StaggerContainer className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-12">
+      <section className="relative border-b border-white/[0.06] bg-white/[0.01] py-8 sm:py-14">
+        <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16">
+          <StaggerContainer className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-8">
             {profile.stats.map((stat) => (
               <StaggerItem key={stat.label}>
                 <motion.div
-                  whileHover={{ y: -6, scale: 1.03 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
                   transition={{ duration: 0.2, ease: EASE }}
-                  className="rounded-2xl border border-white/[0.05] bg-white/[0.015] p-5 text-center sm:text-left transition-colors hover:border-orange-400/30 hover:bg-orange-400/[0.02]"
+                  className="rounded-2xl border border-white/[0.05] bg-white/[0.015] p-4 sm:p-5 text-center sm:text-left transition-colors hover:border-orange-400/30 hover:bg-orange-400/[0.02]"
                 >
-                  <div className="font-mono text-3xl font-bold tracking-tight text-white sm:text-5xl">
+                  <div className="font-mono text-2xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
                     <Counter value={stat.value} decimals={stat.decimals} suffix={stat.suffix} />
                   </div>
-                  <div className="mt-2 text-xs text-gray-400 sm:text-sm">{stat.label}</div>
+                  <div className="mt-1.5 text-xs text-gray-400 sm:text-sm">{stat.label}</div>
                 </motion.div>
               </StaggerItem>
             ))}
@@ -41,9 +41,9 @@ export function HomePage() {
       </section>
 
       {/* Featured Architecture Projects */}
-      <section className="relative py-24 sm:py-32">
-        <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16 overflow-x-clip">
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+      <section className="relative py-12 sm:py-20 lg:py-28">
+        <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16 overflow-x-clip">
+          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
             <SectionHeading
               align="left"
               eyebrow="Flagship Systems"
@@ -61,7 +61,7 @@ export function HomePage() {
             </Button>
           </div>
 
-          <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 sm:mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featuredProjects.map((p, i) => (
               <FeaturedProjectCard key={p.id} project={p} index={i} />
             ))}
@@ -70,45 +70,45 @@ export function HomePage() {
       </section>
 
       {/* Architecture & Engineering Principles Teaser */}
-      <section className="relative border-t border-white/[0.06] bg-white/[0.015] py-24 sm:py-32">
-        <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16">
-          <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.15fr] overflow-hidden">
-            {/* Left portion slides in from left */}
+      <section className="relative border-t border-white/[0.06] bg-white/[0.015] py-12 sm:py-20 lg:py-28">
+        <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-14 overflow-hidden">
+            {/* Left portion */}
             <motion.div
-              initial={{ opacity: 0, x: -70 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '0px 0px -20px 0px' }}
-              transition={{ duration: 1.05, ease: EASE }}
+              transition={{ duration: 0.95, ease: EASE }}
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-orange-400/20 bg-orange-400/[0.06] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-orange-300">
                 <Workflow className="h-3.5 w-3.5" />
                 Live Architecture
               </span>
-              <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-5xl leading-tight">
+              <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl leading-tight">
                 Cloud-native resilience, <span className="text-gradient">verified security</span>
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-gray-400 sm:text-lg">
+              <p className="mt-4 text-sm leading-relaxed text-gray-400 sm:text-base lg:text-lg">
                 I design backend systems that fail gracefully, protect sensitive webhook payloads with cryptographic HMAC-SHA256 verification, and isolate untrusted code in Dockerized sandboxes. Architected GiteaForge on GCP Cloud Run with automated Neon PostgreSQL migrations and hybrid Redis session fallbacks.
               </p>
 
-              <div className="mt-8 grid grid-cols-2 gap-4">
+              <div className="mt-6 sm:mt-8 grid grid-cols-2 gap-3 sm:gap-4">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5 transition-colors hover:border-orange-400/30"
+                  className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5 transition-colors hover:border-orange-400/30"
                 >
-                  <div className="font-mono text-3xl font-bold text-orange-300">&lt; 45ms</div>
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-orange-300">&lt; 45ms</div>
                   <div className="mt-1 text-xs text-gray-400 sm:text-sm">Webhook ingestion latency</div>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5 transition-colors hover:border-orange-400/30"
+                  className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5 transition-colors hover:border-orange-400/30"
                 >
-                  <div className="font-mono text-3xl font-bold text-amber-300">0</div>
+                  <div className="font-mono text-2xl sm:text-3xl font-bold text-amber-300">0</div>
                   <div className="mt-1 text-xs text-gray-400 sm:text-sm">Critical failures in production</div>
                 </motion.div>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              <div className="mt-6 sm:mt-8 flex flex-wrap gap-3 sm:gap-4">
                 <Button asChild variant="gradient" size="lg" className="group">
                   <Link to="/about">
                     Explore Architecture &amp; Principles <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -120,57 +120,57 @@ export function HomePage() {
               </div>
             </motion.div>
 
-            {/* Right portion slides in from right */}
+            {/* Right portion */}
             <motion.div
-              initial={{ opacity: 0, x: 70 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '0px 0px -20px 0px' }}
-              transition={{ duration: 1.05, delay: 0.15, ease: EASE }}
+              transition={{ duration: 0.95, delay: 0.1, ease: EASE }}
             >
-              <SpotlightCard className="p-8 transition-all duration-300 hover:border-orange-400/30 hover:shadow-2xl hover:shadow-orange-500/5">
+              <SpotlightCard className="p-5 sm:p-8 transition-all duration-300 hover:border-orange-400/30 hover:shadow-2xl hover:shadow-orange-500/5">
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 font-mono text-xs text-gray-400">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span>giteaforge.topology</span>
                   </div>
-                  <span className="text-orange-300 font-semibold">GCP Cloud Run · Docker</span>
+                  <span className="text-orange-300 font-semibold text-[11px] sm:text-xs">GCP Cloud Run · Docker</span>
                 </div>
 
-                <div className="my-8 space-y-4 font-mono text-xs sm:text-sm">
+                <div className="my-5 sm:my-8 space-y-3 sm:space-y-4 font-mono text-xs sm:text-sm">
                   <motion.div
                     whileHover={{ scale: 1.015, x: 4 }}
-                    className="flex items-center justify-between rounded-xl border border-orange-400/20 bg-orange-400/5 px-5 py-4 transition-colors hover:bg-orange-400/10"
+                    className="flex items-center justify-between rounded-xl border border-orange-400/20 bg-orange-400/5 px-4 py-3 sm:px-5 sm:py-4 transition-colors hover:bg-orange-400/10"
                   >
-                    <span className="text-gray-200 font-medium">GCP Cloud Run (Containerized)</span>
-                    <span className="text-orange-300">Express 5 · JWT</span>
+                    <span className="text-gray-200 font-medium text-xs sm:text-sm">GCP Cloud Run (Containerized)</span>
+                    <span className="text-orange-300 text-xs sm:text-sm">Express 5 · JWT</span>
                   </motion.div>
                   <div className="flex justify-center">
-                    <span className="text-gray-500 font-mono text-xs">↓ HMAC-SHA256 Webhook Verification</span>
+                    <span className="text-gray-500 font-mono text-[11px] sm:text-xs">↓ HMAC-SHA256 Webhook Verification</span>
                   </div>
                   <motion.div
                     whileHover={{ scale: 1.015, x: 4 }}
-                    className="flex items-center justify-between rounded-xl border border-amber-400/20 bg-amber-400/5 px-5 py-4 transition-colors hover:bg-amber-400/10"
+                    className="flex items-center justify-between rounded-xl border border-amber-400/20 bg-amber-400/5 px-4 py-3 sm:px-5 sm:py-4 transition-colors hover:bg-amber-400/10"
                   >
-                    <span className="text-gray-200 font-medium">Judge0 Code Execution VM</span>
-                    <span className="text-amber-300">8+ Languages</span>
+                    <span className="text-gray-200 font-medium text-xs sm:text-sm">Judge0 Code Execution VM</span>
+                    <span className="text-amber-300 text-xs sm:text-sm">8+ Languages</span>
                   </motion.div>
                   <div className="flex justify-center">
-                    <span className="text-gray-500 font-mono text-xs">↓ Prisma Migrations &amp; Hybrid Sessions</span>
+                    <span className="text-gray-500 font-mono text-[11px] sm:text-xs">↓ Prisma Migrations &amp; Hybrid Sessions</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center transition-colors hover:border-orange-400/30"
+                      className="rounded-xl border border-white/10 bg-white/[0.03] p-3 sm:p-4 text-center transition-colors hover:border-orange-400/30"
                     >
-                      <div className="text-gray-300 font-medium">Neon PostgreSQL</div>
-                      <div className="text-xs text-gray-500 mt-1">Prisma Schema</div>
+                      <div className="text-gray-300 font-medium text-xs sm:text-sm">Neon PostgreSQL</div>
+                      <div className="text-[11px] sm:text-xs text-gray-500 mt-0.5">Prisma Schema</div>
                     </motion.div>
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-center transition-colors hover:border-orange-400/30"
+                      className="rounded-xl border border-white/10 bg-white/[0.03] p-3 sm:p-4 text-center transition-colors hover:border-orange-400/30"
                     >
-                      <div className="text-gray-300 font-medium">Redis Cache</div>
-                      <div className="text-xs text-gray-500 mt-1">Session Fallback</div>
+                      <div className="text-gray-300 font-medium text-xs sm:text-sm">Redis Cache</div>
+                      <div className="text-[11px] sm:text-xs text-gray-500 mt-0.5">Session Fallback</div>
                     </motion.div>
                   </div>
                 </div>
@@ -181,8 +181,8 @@ export function HomePage() {
       </section>
 
       {/* Tech Stack Preview Banner */}
-      <section className="relative py-24 sm:py-32">
-        <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16 text-center">
+      <section className="relative py-12 sm:py-20 lg:py-28">
+        <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16 text-center">
           <SectionHeading
             eyebrow="Technology Foundation"
             title={
@@ -193,20 +193,20 @@ export function HomePage() {
             description="Explore the interactive 3D Stack Orbit containing core languages, databases, message brokers, and cloud orchestration systems."
           />
 
-          <div className="mt-12 flex flex-wrap justify-center gap-3">
+          <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-2 sm:gap-3">
             {profile.marquee.map((tech) => (
               <motion.span
                 key={tech}
                 whileHover={{ scale: 1.08, y: -3 }}
                 transition={{ duration: 0.2 }}
-                className="cursor-default rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 font-mono text-xs sm:text-sm text-gray-300 transition-colors hover:border-orange-400/40 hover:text-white shadow-sm"
+                className="cursor-default rounded-xl border border-white/[0.08] bg-white/[0.03] px-3.5 py-2 font-mono text-xs sm:text-sm text-gray-300 transition-colors hover:border-orange-400/40 hover:text-white shadow-sm"
               >
                 {tech}
               </motion.span>
             ))}
           </div>
 
-          <div className="mt-12 flex justify-center">
+          <div className="mt-8 sm:mt-10 flex justify-center">
             <Button asChild size="lg" variant="outline" className="group">
               <Link to="/stack">
                 Launch 3D Constellation Orbit <Layers className="h-4 w-4 transition-transform group-hover:scale-110" />
@@ -217,15 +217,15 @@ export function HomePage() {
       </section>
 
       {/* Bottom Conversion Section */}
-      <section className="relative border-t border-white/[0.06] py-24 sm:py-32">
-        <div className="mx-auto w-full max-w-[1700px] px-6 sm:px-10 lg:px-16 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+      <section className="relative border-t border-white/[0.06] py-12 sm:py-20 lg:py-28">
+        <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16 text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Have a distributed system challenge?
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-gray-400 sm:text-lg">
+          <p className="mx-auto mt-3 sm:mt-4 max-w-2xl text-sm leading-relaxed text-gray-400 sm:text-base lg:text-lg">
             Whether you are scaling from 1k to 100k requests/sec, decomposing legacy monoliths, or requiring 99.99% uptime for core financial paths.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
             <Button asChild size="lg" variant="gradient" className="group">
               <Link to="/ai-twin">
                 <Sparkles className="h-4 w-4 animate-pulse" /> Ask My AI Twin First
@@ -244,25 +244,17 @@ export function HomePage() {
 function FeaturedProjectCard({ project: p, index }: { project: Project; index: number }) {
   const { ask } = useChat();
   const accent = accents[p.accent];
-  const col = index % 3; // 0 = left, 1 = middle, 2 = right
-
-  const initial =
-    col === 0
-      ? { opacity: 0, x: -120, scale: 0.96 }
-      : col === 2
-      ? { opacity: 0, x: 120, scale: 0.96 }
-      : { opacity: 0, x: 0, scale: 0.88 };
 
   return (
     <motion.div
-      initial={initial}
-      whileInView={{ opacity: 1, x: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '0px 0px -25px 0px' }}
       whileHover={{ y: -8, scale: 1.015 }}
-      transition={{ duration: 0.95, delay: col === 1 ? 0.14 : 0, ease: EASE }}
+      transition={{ duration: 0.85, delay: (index % 3) * 0.1, ease: EASE }}
       className="h-full"
     >
-      <SpotlightCard className="group flex h-full flex-col p-7 transition-all duration-300 hover:border-orange-400/40 hover:shadow-2xl hover:shadow-orange-500/10">
+      <SpotlightCard className="group flex h-full flex-col p-5 sm:p-7 transition-all duration-300 hover:border-orange-400/40 hover:shadow-2xl hover:shadow-orange-500/10">
         <div className="flex items-center justify-between gap-3">
           <span className={`rounded-full border px-2.5 py-0.5 font-mono text-[11px] transition-transform duration-200 group-hover:scale-105 ${accent.border} ${accent.bg} ${accent.text}`}>
             {p.category}
