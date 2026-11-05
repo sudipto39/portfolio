@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Cloud, Database, Server, Sparkles, X } from 'lucide-react';
+import { ArrowRight, Bot, Cloud, Database, Server, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { profile } from '../data/profile';
 import { coreStack, orbitStack, STACK_GROUPS, usedIn, type StackGroup, type StackTech } from '../data/stack';
@@ -321,8 +321,8 @@ function TechDetails({
             onClick={onAsk}
             className="inline-flex items-center gap-1.5 text-xs text-orange-300 hover:text-orange-200"
           >
-            <Sparkles className="h-3.5 w-3.5" />
-            Ask my AI twin about {tech.name} in production
+            <Bot className="h-3.5 w-3.5" />
+            Ask how {tech.name} is used in projects
           </button>
         </div>
       </div>

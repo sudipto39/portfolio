@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
-import { Menu, Search, Sparkles } from 'lucide-react';
+import { Bot, Menu, Search } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { profile } from '../../data/profile';
 import { useChat } from '../../hooks/use-chat';
@@ -16,7 +16,7 @@ const NAV_ITEMS = [
   { path: '/projects', label: 'Work' },
   { path: '/stack', label: 'Stack' },
   { path: '/experience', label: 'Experience' },
-  { path: '/ai-twin', label: 'AI Twin' },
+  { path: '/ai-twin', label: 'Assistant' },
   { path: '/contact', label: 'Contact' },
 ];
 
@@ -101,7 +101,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
           <div className="ml-auto flex items-center gap-2 md:ml-0">
             <ExpandableSearch isExpanded={isSearchExpanded} onExpandedChange={setIsSearchExpanded} />
             <Button size="sm" variant="gradient" className="h-9 rounded-lg px-3.5" onClick={() => setChatOpen(true)}>
-              <Sparkles className="h-3.5 w-3.5" />
+              <Bot className="h-3.5 w-3.5" />
               Ask AI
             </Button>
             <Button
@@ -162,7 +162,7 @@ export function Navbar({ onOpenCommand }: { onOpenCommand?: () => void }) {
                 setTimeout(() => setChatOpen(true), 200);
               }}
             >
-              <Sparkles className="h-4 w-4" /> Ask my AI twin
+              <Bot className="h-4 w-4" /> Ask AI Assistant
             </Button>
           </div>
         </SheetContent>

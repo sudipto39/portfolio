@@ -12,18 +12,18 @@ import { ChatPanel } from './ChatPanel';
 const STEPS = [
   {
     icon: Braces,
-    title: 'Grounded on real data',
-    body: 'The system prompt is generated from the same profile.ts that renders this page.',
+    title: 'Grounded System Context',
+    body: 'The system prompt is compiled directly from verified architecture schemas and project specifications.',
   },
   {
     icon: Radio,
-    title: 'Streamed over SSE',
-    body: 'Tokens are parsed by a tiny SSE reader and batched per animation frame.',
+    title: 'Direct SSE Streaming',
+    body: 'Responses stream token-by-token directly to your browser for low-latency feedback.',
   },
   {
     icon: ShieldCheck,
-    title: 'Your key, your browser',
-    body: 'Requests go straight to Google Gemini or Groq API — or your proxy.',
+    title: 'Direct & Private',
+    body: 'Direct browser-to-API calls with zero intermediary tracking or third-party storage.',
   },
 ];
 
@@ -75,13 +75,13 @@ export function AISection() {
 
       <div className="mx-auto max-w-6xl px-4">
         <SectionHeading
-          eyebrow="AI twin"
+          eyebrow="Interactive Assistant"
           title={
             <>
-              Don&apos;t read my CV — <span className="text-gradient">ask it.</span>
+              Inspect the architecture &amp; code with <span className="text-gradient">AI.</span>
             </>
           }
-          description="An AI version of me, grounded on my resume, LinkedIn, and real engineering metrics. Powered by Google Gemini & Groq (both 100% free) with real-time streaming — or the offline demo engine, no key needed."
+          description="An interactive assistant grounded on Sudipto's verified project schemas, API contracts, and engineering experience. Powered by Google Gemini and Groq with low-latency streaming — or the local offline engine."
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
@@ -100,7 +100,7 @@ export function AISection() {
           {/* Explainer */}
           <div className="space-y-6 lg:order-1">
             <Reveal>
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-500">Choose the brain</p>
+              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gray-500">Select inference engine</p>
               <div className="space-y-2.5">
                 {PROVIDER_ORDER.map((id) => {
                   const m = PROVIDERS[id];

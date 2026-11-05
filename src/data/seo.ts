@@ -63,9 +63,9 @@ const staticRoutes: RouteMeta[] = [
   },
   {
     path: '/ai-twin',
-    title: 'AI Twin — Ask Sudipto Gayen Anything',
+    title: 'Interactive AI Assistant — Sudipto Gayen',
     description:
-      "Chat with Sudipto's AI twin to learn about his projects, backend architecture decisions, skills and experience.",
+      "Explore Sudipto's backend architecture, projects, code design, and engineering experience through an interactive grounded assistant.",
     indexable: true,
     priority: 0.5,
   },

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 import { animate, motion, useInView } from 'framer-motion';
-import { Cpu, Sparkles } from 'lucide-react';
+import { Bot, Cpu } from 'lucide-react';
 import { profile } from '../data/profile';
 import type { ProviderId } from '../lib/ai/config';
 import { cn } from '../utils/cn';
@@ -294,7 +294,7 @@ export function TwinAvatar({ size = 'md', className }: { size?: 'sm' | 'md' | 'l
           badge[size]
         )}
       >
-        <Sparkles className="h-[60%] w-[60%] text-orange-300" />
+        <Bot className="h-[60%] w-[60%] text-orange-300" />
       </span>
     </span>
   );

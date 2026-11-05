@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Layers, Sparkles, Workflow } from 'lucide-react';
+import { ArrowRight, Bot, Layers, Workflow } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { accents, profile, type Project } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -187,10 +187,10 @@ export function HomePage() {
             eyebrow="Technology Foundation"
             title={
               <>
-                Engineered with <span className="text-gradient">battle-tested tools</span>
+                Built with <span className="text-gradient">modern backend tooling</span>
               </>
             }
-            description="Explore the interactive 3D Stack Orbit containing core languages, databases, message brokers, and cloud orchestration systems."
+            description="Explore the languages, databases, caching layers, and cloud infrastructure used across my projects."
           />
 
           <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-2 sm:gap-3">
@@ -220,15 +220,15 @@ export function HomePage() {
       <section className="relative border-t border-white/[0.06] py-12 sm:py-20 lg:py-28">
         <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16 text-center">
           <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Have a distributed system challenge?
+            Building reliable backend services &amp; APIs?
           </h2>
           <p className="mx-auto mt-3 sm:mt-4 max-w-2xl text-sm leading-relaxed text-gray-400 sm:text-base lg:text-lg">
-            Whether you are scaling from 1k to 100k requests/sec, decomposing legacy monoliths, or requiring 99.99% uptime for core financial paths.
+            From secure RESTful APIs and HMAC webhook pipelines to containerized microservices and sandboxed execution environments.
           </p>
           <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-4">
             <Button asChild size="lg" variant="gradient" className="group">
               <Link to="/ai-twin">
-                <Sparkles className="h-4 w-4 animate-pulse" /> Ask My AI Twin First
+                <Bot className="h-4 w-4" /> Ask the Interactive Assistant
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
@@ -308,7 +308,7 @@ function FeaturedProjectCard({ project: p, index }: { project: Project; index: n
             whileTap={{ scale: 0.95 }}
             className="inline-flex items-center gap-1 rounded-lg border border-orange-400/20 bg-orange-400/5 px-2.5 py-1 text-xs text-orange-300 transition-colors hover:bg-orange-400/15 hover:text-orange-100"
           >
-            <Sparkles className="h-3 w-3 animate-pulse" />
+            <Bot className="h-3.5 w-3.5" />
             Ask AI
           </motion.button>
         </div>

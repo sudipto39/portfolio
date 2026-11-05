@@ -1,8 +1,8 @@
 import { profile, type Project, type Role, type Skill, type SkillGroup } from '../../data/profile';
 
 /**
- * Offline "demo mode": a tiny intent engine over the profile data.
- * Zero network, zero keys — so the AI twin works for every visitor.
+ * Offline demo engine: deterministic intent matcher over profile and architecture data.
+ * Zero network calls, zero tracking, fully private and grounded in verified facts.
  */
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -28,92 +28,83 @@ function usesSkill(stack: string[], skill: Skill): boolean {
   });
 }
 
-function levelWord(level: number): string {
-  if (level >= 92) return 'a daily driver — expert level';
-  if (level >= 85) return 'an advanced, production-hardened skill';
-  if (level >= 75) return 'a strong skill I use regularly';
-  return 'solid working knowledge';
-}
-
 /* ------------------------------ answers ------------------------------ */
 
 const greet = () =>
-  `Hey! 👋 I'm **${profile.firstName}'s AI twin**. Ask me about my **projects**, **stack**, **experience** or **availability** — what would you like to know?`;
+  `Hi, I'm **${profile.firstName}'s portfolio assistant**. Ask me about my **backend projects**, **system architecture**, **API contracts**, **tech stack**, or **experience**. What would you like to explore?`;
 
 const aboutTwin = () =>
   [
-    `I'm **${profile.firstName}'s AI twin** — an assistant grounded on the same data that renders this portfolio.`,
-    '- **Live mode** streams answers from **Google Gemini** or **Groq**, called straight from your browser.',
-    '- **Offline mode** — what you’re using now — is an on-device intent engine grounded in my verified resume, LinkedIn, and architecture metrics.',
+    `I am an interactive assistant grounded directly on **${profile.firstName}'s** engineering projects, code designs, and verified resume.`,
+    '- **Live mode:** Streams answers from **Google Gemini** or **Groq** directly to your browser with low latency.',
+    '- **Offline mode:** Uses an on-device rule matcher over project schemas — zero network calls and completely private.',
   ].join('\n\n');
 
 const availability = () =>
   [
-    `**${profile.availability}.**`,
-    `- 📍 ${profile.location} (${profile.timezone})\n- 🌍 ${profile.remote}\n- ✉️ [${profile.email}](mailto:${profile.email}) — ${profile.responseTime.toLowerCase()}`,
-    'Rates depend on scope, so I discuss them privately — send me a short note about the problem you’re solving.',
+    `**${profile.availability}**`,
+    `- **Location:** ${profile.location} (${profile.timezone})\n- **Work mode:** ${profile.remote}\n- **Direct email:** [${profile.email}](mailto:${profile.email}) (${profile.responseTime.toLowerCase()})`,
+    'Open to discussing engineering roles, project scope, and timelines over email or LinkedIn.',
   ].join('\n\n');
 
 const contact = () =>
   [
-    'Here’s how to reach me:',
-    `- ✉️ **Email:** [${profile.email}](mailto:${profile.email}) — ${profile.responseTime.toLowerCase()}\n- 💼 **LinkedIn:** [${host(profile.links.linkedin)}](${profile.links.linkedin})\n- 🐙 **GitHub:** [${host(profile.links.github)}](${profile.links.github})`,
-    'Or use the contact form at the bottom of this page.',
+    'You can reach me directly via:',
+    `- **Email:** [${profile.email}](mailto:${profile.email}) (${profile.responseTime.toLowerCase()})\n- **LinkedIn:** [${host(profile.links.linkedin)}](${profile.links.linkedin})\n- **GitHub:** [${host(profile.links.github)}](${profile.links.github})\n- **Phone:** ${profile.phone}`,
+    'Or use the contact form at the bottom of the contact page.',
   ].join('\n\n');
 
 const projectDetail = (p: Project) =>
   [
-    `### ${p.title} · ${p.year}`,
+    `### ${p.title} (${p.year})`,
     p.summary,
-    `**My role:** ${p.role}`,
-    `**How it works:** ${p.details}`,
-    `**Impact**\n${p.metrics.map((m) => `- ${m.label}: **${m.value}**`).join('\n')}`,
-    `**Stack:** ${p.tech.map((t) => `\`${t}\``).join(' · ')}`,
-    p.github ? `Code: [${host(p.github)}](${p.github})` : '',
+    `**Role:** ${p.role}`,
+    `**Architecture & Implementation:**\n${p.details}`,
+    `**Key Metrics & Verification:**\n${p.metrics.map((m) => `- ${m.label}: **${m.value}**`).join('\n')}`,
+    `**Tech Stack:** ${p.tech.map((t) => `\`${t}\``).join(' · ')}`,
+    p.github ? `Repository: [${host(p.github)}](${p.github})` : '',
+    p.live ? `Deployment: [${host(p.live)}](${p.live})` : '',
   ]
     .filter(Boolean)
     .join('\n\n');
 
 const roleDetail = (r: Role) =>
   [
-    `### ${r.title} @ ${r.company}`,
-    `_${r.period} · ${r.location}_`,
+    `### ${r.title} — ${r.company}`,
+    `*${r.period} · ${r.location}*`,
     r.summary,
     r.highlights.map((h) => `- ${h}`).join('\n'),
-    `**Stack:** ${r.stack.map((t) => `\`${t}\``).join(' · ')}`,
+    `**Technologies:** ${r.stack.map((t) => `\`${t}\``).join(' · ')}`,
   ].join('\n\n');
 
 const projectList = () =>
   [
-    'A few systems I’m proud of:',
+    'Key backend and full-stack systems built by Sudipto:',
     profile.projects
-      .map((p) => `- **${p.title}** (${p.year}) — ${p.summary} _${p.metrics[0].label}: ${p.metrics[0].value}_`)
+      .map((p) => `- **${p.title}** (${p.year}) — ${p.summary} (*${p.metrics[0].label}: ${p.metrics[0].value}*)`)
       .join('\n'),
-    'Ask me about any of them for the architecture deep-dive.',
+    'Ask about any project for its system design, database models, or security mechanisms.',
   ].join('\n\n');
 
 function skillDetail(list: GroupedSkill[]): string {
   const parts = list.slice(0, 3).map((s) => {
     const projects = profile.projects.filter((p) => usesSkill(p.tech, s));
     const roles = profile.experience.filter((r) => usesSkill(r.stack, s));
-    const lines = [`**${s.name}** is ${levelWord(s.level)} (**${s.level}/100**, ${s.group}).`];
-    if (projects.length) lines.push(`Projects:\n${projects.map((p) => `- **${p.title}** — ${p.summary}`).join('\n')}`);
-    if (roles.length) lines.push(`Roles:\n${roles.map((r) => `- ${r.title} @ **${r.company}** (${r.period})`).join('\n')}`);
+    const lines = [`**${s.name}** (${s.group})`];
+    if (projects.length) lines.push(`Projects:\n${projects.map((p) => `- **${p.title}**: ${p.summary}`).join('\n')}`);
+    if (roles.length) lines.push(`Experience:\n${roles.map((r) => `- ${r.title} @ **${r.company}** (${r.period})`).join('\n')}`);
     return lines.join('\n\n');
   });
-  return `${parts.join('\n\n---\n\n')}\n\nWant details on any of these? Just ask.`;
+  return `${parts.join('\n\n---\n\n')}\n\nAsk about any of these for technical architecture details.`;
 }
 
 function groupDetail(g: SkillGroup): string {
   const related = profile.projects.filter((p) => g.skills.some((s) => usesSkill(p.tech, s)));
   return [
     `**${g.title}** — ${g.description}`,
-    [...g.skills]
-      .sort((a, b) => b.level - a.level)
-      .map((s) => `- \`${s.name}\` — **${s.level}/100**, ${levelWord(s.level)}`)
-      .join('\n'),
-    `Also comfortable with ${g.extras.map((e) => `\`${e}\``).join(', ')}.`,
-    related.length ? `Where it shows up: ${related.map((p) => `**${p.title}**`).join(', ')}.` : '',
+    g.skills.map((s) => `- \`${s.name}\``).join('\n'),
+    `Additional tools: ${g.extras.map((e) => `\`${e}\``).join(', ')}.`,
+    related.length ? `Used in: ${related.map((p) => `**${p.title}**`).join(', ')}.` : '',
   ]
     .filter(Boolean)
     .join('\n\n');
@@ -122,74 +113,70 @@ function groupDetail(g: SkillGroup): string {
 function skillsOverview(): string {
   const groups = profile.skillGroups
     .map((g) => {
-      const top = [...g.skills]
-        .sort((a, b) => b.level - a.level)
-        .slice(0, 4)
-        .map((s) => `\`${s.name}\``)
-        .join(', ');
+      const top = g.skills.slice(0, 4).map((s) => `\`${s.name}\``).join(', ');
       return `- **${g.title}:** ${top}`;
     })
     .join('\n');
   return [
-    'My core stack is **Node.js & Express 5, TypeScript, PostgreSQL (Neon), and Redis**, containerized with **Docker** and deployed on **GCP Cloud Run**.',
+    'Core engineering stack: **Node.js, Express 5, TypeScript, PostgreSQL (Neon), and Redis**, containerized with **Docker** and deployed on **GCP Cloud Run**.',
     groups,
-    'I specialize in secure RESTful APIs, HMAC-verified webhook pipelines, and sandboxed code execution environments like Judge0.',
+    'Key specialties include RESTful API engineering, HMAC-SHA256 webhook ingestion, and sandboxed code execution environments (Judge0).',
   ].join('\n\n');
 }
 
 const experienceAnswer = () =>
   [
-    `I am an early-career backend and full-stack developer with real-world production internship experience:`,
+    `Production and internship experience:`,
     profile.experience.map((r) => `- **${r.period}** — ${r.title} @ **${r.company}**: ${r.summary}`).join('\n'),
-    'Ask me about any role for the technical highlights, APIs built, or security tooling used.',
+    'Ask about any role to review technical contributions, APIs delivered, or security tooling.',
   ].join('\n\n');
 
 const educationAnswer = () =>
   [
-    `Here is my **academic background**:`,
+    `**Academic Background:**`,
     ...profile.education.map(
       (e) =>
-        `- 🎓 **${e.degree}** @ **${e.institution}** (${e.period})\n  - ${e.score ? `**${e.score}** · ` : ''}📍 ${e.location}\n  - ${e.details}`
+        `- **${e.degree}** — **${e.institution}** (${e.period})\n  ${e.score ? `Result: **${e.score}** · ` : ''}Location: ${e.location}\n  ${e.details}`
     ),
-    'Feel free to ask about my cybersecurity coursework, algorithms, or technical focus.',
+    'Coursework covers cybersecurity, network defense, data structures, algorithms, and cloud systems.',
   ].join('\n\n');
 
 const certificationsAnswer = () =>
   [
-    `Here are my **certifications & credentials**:`,
+    `**Certifications & Credentials:**`,
     ...profile.certifications.map(
-      (c) => `- 📜 **${c.title}** — issued by **${c.issuer}** (${c.date})${c.badge ? ` [${c.badge}]` : ''}`
+      (c) => `- **${c.title}** — issued by **${c.issuer}** (${c.date})${c.badge ? ` (${c.badge})` : ''}`
     ),
-    `You can also download my full resume: [Download Resume PDF](${profile.resumeUrl}).`,
+    `Full resume available for download: [Download Resume PDF](${profile.resumeUrl}).`,
   ].join('\n\n');
 
 const resumeAnswer = () =>
   [
-    `📄 **Download My Resume**:`,
-    `You can download my updated resume directly here: **[${profile.resumeFilename}](${profile.resumeUrl})**`,
-    `Key highlights:`,
-    `- **Education**: B.Tech in CSE (Cybersecurity) @ The Neotia University (CGPA: 7.85 till 6th Sem)`,
-    `- **Industry & Projects**: GiteaForge LMS (129 REST APIs across 14 modules, 130 with Swagger UI) & ShopXpress (25+ production REST APIs @ AiLabs), plus Cybersecurity Intern @ Dataspace Academy (VAPT)`,
-    `- **Flagship Project**: GiteaForge (GCP Cloud Run, Judge0 sandbox VM, HMAC-SHA256 webhooks, Redis + Postgres hybrid session)`,
-    `- **Email**: [${profile.email}](mailto:${profile.email}) · **Phone**: ${profile.phone}`,
+    `**Resume Download & Highlights:**`,
+    `Download the verified resume: **[${profile.resumeFilename}](${profile.resumeUrl})**`,
+    `Summary:`,
+    `- **Education:** B.Tech in CSE (Cybersecurity Specialization) @ The Neotia University (CGPA: 7.85 till 6th Sem)`,
+    `- **Experience:** Backend Intern @ AiLabs (25+ REST APIs for ShopXpress) & Cybersecurity Intern @ Dataspace Academy (VAPT)`,
+    `- **Flagship Project:** GiteaForge (129 REST APIs, Judge0 sandbox VM, HMAC-SHA256 webhooks, Redis + Postgres hybrid session)`,
+    `- **Contact:** [${profile.email}](mailto:${profile.email}) · Phone: ${profile.phone}`,
   ].join('\n\n');
 
 const principlesAnswer = () =>
   [
-    'How I approach system design:',
-    profile.principles.map((p) => `- **${p.title}** — ${p.body}`).join('\n'),
-    'In practice: start with a well-modelled PostgreSQL schema, clear API contracts with Zod & Postman, strict security audits — then optimize latencies.',
+    'Engineering approach & design principles:',
+    profile.principles.map((p) => `- **${p.title}:** ${p.body}`).join('\n'),
+    'In practice: well-modeled relational schemas, strict API contracts with Zod validation, defensive error handling, and security-first defaults.',
   ].join('\n\n');
 
-const locationAnswer = () => `I'm based in **${profile.location}** (${profile.timezone}). ${profile.remote}.`;
+const locationAnswer = () => `Based in **${profile.location}** (${profile.timezone}). ${profile.remote}.`;
 
-const thanks = () => 'Anytime! 🙌 Anything else — maybe a deep-dive into GiteaForge or my backend stack?';
+const thanks = () => 'Glad I could help. Let me know if you would like to inspect any other architecture details, API contracts, or project schemas.';
 
 const fallback = () =>
   [
-    'I don’t have a canned answer for that in **offline demo mode**. I can tell you about:',
-    `- my **projects** — e.g. GiteaForge (Judge0 sandbox, HMAC webhooks), ShopXpress, CloudSec VAPT Suite\n- my **stack** — Node.js, Express, TypeScript, PostgreSQL, Redis, Docker, GCP Cloud Run…\n- my **experience & internships** — AiLabs, Dataspace Academy\n- my **education & credentials** — The Neotia University (CGPA 7.85), Udemy Bootcamp, VAPT\n- my **resume** — download PDF`,
-    `For free-form questions, select **Google Gemini** or **Groq** — or email [${profile.email}](mailto:${profile.email}).`,
+    'In offline mode, responses are generated locally from verified project schemas and profile data. I can answer questions about:',
+    `- **Projects:** GiteaForge (Judge0 sandbox, HMAC webhooks), ShopXpress, CloudSec VAPT Suite\n- **Stack:** Node.js, Express 5, TypeScript, PostgreSQL, Redis, Docker, GCP Cloud Run\n- **Experience:** AiLabs backend internship, Dataspace Academy VAPT internship\n- **Credentials:** Degree, certifications, and resume download`,
+    `To ask open-ended questions, switch to **Google Gemini** or **Groq** using the engine selector, or contact Sudipto directly at [${profile.email}](mailto:${profile.email}).`,
   ].join('\n\n');
 
 /* ------------------------------ router ------------------------------ */

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Globe, Layers, Server, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bot, Globe, Layers, Server } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { accents, profile } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -117,8 +117,8 @@ export function ProjectDetailPage() {
               className="transition-transform hover:scale-105"
               onClick={() => ask(`Walk me through the system design of ${project.title}: architecture, trade-offs and consistency model`)}
             >
-              <Sparkles className="h-4 w-4 animate-pulse" />
-              Ask AI Twin Architecture Deep-Dive
+              <Bot className="h-4 w-4" />
+              Ask Architecture Q&amp;A
             </Button>
           </div>
         </motion.div>
@@ -225,14 +225,14 @@ export function ProjectDetailPage() {
               className="rounded-3xl border border-orange-400/25 bg-linear-to-br from-orange-950/30 via-panel to-ink p-8 shadow-xl shadow-orange-500/5"
             >
               <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-orange-300">
-                <Sparkles className="h-4 w-4 animate-spin-slow" />
+                <Bot className="h-4 w-4" />
                 Interactive Architectural Q&amp;A
               </div>
               <h3 className="mt-3 text-2xl font-bold text-white">
                 Want deeper technical insights into this system?
               </h3>
               <p className="mt-2 text-sm sm:text-base text-gray-400">
-                Click any question below to inspect the architectural trade-offs, consistency guarantees, and failure modes with my AI Twin:
+                Click any question below to inspect architectural decisions, data models, and failure modes with the assistant:
               </p>
 
               <div className="mt-6 flex flex-col gap-2.5">

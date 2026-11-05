@@ -2,17 +2,19 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowUp,
+  Bot,
   Braces,
   Briefcase,
   Check,
   ChevronDown,
   CircleAlert,
+  Code2,
   Copy,
+  Cpu,
   Layers,
-  Rocket,
   RotateCcw,
-  Sparkles,
   Square,
+  Terminal,
   Workflow,
   X,
   Zap,
@@ -27,7 +29,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { Kbd, ProviderIcon, TwinAvatar } from '../shared';
 import { Markdown } from './Markdown';
 
-const SUGGESTION_ICONS = [Layers, Workflow, Briefcase, Rocket, Braces, Zap];
+const SUGGESTION_ICONS = [Terminal, Layers, Workflow, Briefcase, Braces, Code2];
 
 interface ChatPanelProps {
   className?: string;
@@ -94,7 +96,7 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
       <header className="flex items-center gap-2.5 border-b border-white/[0.07] px-4 py-3">
         <TwinAvatar />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-white">{profile.firstName}&apos;s AI twin</p>
+          <p className="truncate text-sm font-semibold text-white">{profile.firstName}&apos;s Assistant</p>
           <p className="flex items-center gap-1.5 text-[11px] text-gray-500">
             <span
               className={cn(
@@ -102,7 +104,7 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
                 isLive ? 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.9)]' : 'bg-amber-400'
               )}
             />
-            <span className="truncate">{isLive ? 'Live · grounded on my portfolio' : 'Demo mode · on-device answers'}</span>
+            <span className="truncate">{isLive ? 'Live · direct stream' : 'Offline mode · grounded in verified schemas'}</span>
           </p>
         </div>
 
@@ -152,7 +154,7 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
       >
         <div className="flex items-end gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-1.5 pl-3.5 transition focus-within:border-orange-400/40 focus-within:ring-4 focus-within:ring-orange-400/10">
           <label htmlFor={inputId} className="sr-only">
-            Message {profile.firstName}&apos;s AI twin
+            Message {profile.firstName}&apos;s assistant
           </label>
           <textarea
             id={inputId}
@@ -161,7 +163,7 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Ask about my projects, stack, availability…"
+            placeholder="Ask about GiteaForge, APIs, system architecture, or tech stack…"
             className="max-h-40 min-h-[40px] flex-1 resize-none bg-transparent py-2.5 text-sm text-gray-100 outline-none placeholder:text-gray-500"
           />
           {isStreaming ? (
@@ -182,7 +184,7 @@ export function ChatPanel({ className, autoFocus = false, onClose }: ChatPanelPr
             </span>
           ) : (
             <span className="truncate">
-              Offline engine · grounded in verified resume &amp; LinkedIn background
+              Offline engine · deterministic matching over verified project schemas
             </span>
           )}
           <span className="hidden shrink-0 items-center gap-1 sm:flex">
@@ -200,12 +202,12 @@ function EmptyState({ onPick }: { onPick: (q: string) => void }) {
   return (
     <div className="flex min-h-full flex-col items-center justify-center py-4 text-center">
       <div className="relative">
-        <div aria-hidden className="absolute inset-0 -z-10 scale-150 rounded-full bg-orange-400/25 blur-2xl" />
+        <div aria-hidden className="absolute inset-0 -z-10 scale-125 rounded-full bg-orange-400/15 blur-xl" />
         <TwinAvatar size="lg" />
       </div>
-      <h3 className="mt-5 text-lg font-semibold text-white">Hi, I&apos;m {profile.firstName}&apos;s AI twin 👋</h3>
-      <p className="mt-1.5 max-w-xs text-sm text-gray-400">
-        Ask me anything about my projects, stack, experience or availability.
+      <h3 className="mt-5 text-lg font-semibold text-white">Ask about Sudipto&apos;s Engineering &amp; Systems</h3>
+      <p className="mt-1.5 max-w-sm text-sm text-gray-400">
+        Grounded in verified backend architecture, REST API contracts, and production experience.
       </p>
       <div className="mt-6 grid w-full gap-2 sm:grid-cols-2">
         {profile.suggestedQuestions.map((q, i) => {
@@ -291,7 +293,7 @@ function Reasoning({ text, active }: { text: string; active: boolean }) {
         className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-amber-200/80 transition hover:text-amber-100"
         aria-expanded={open}
       >
-        <Sparkles className={cn('h-3.5 w-3.5', active && 'animate-pulse')} />
+        <Cpu className={cn('h-3.5 w-3.5', active && 'animate-pulse')} />
         {active ? 'Reasoning…' : 'Thought process'}
         <ChevronDown className={cn('ml-auto h-3.5 w-3.5 transition-transform', open && 'rotate-180')} />
       </button>

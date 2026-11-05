@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import {
   ArrowRight,
   Award,
+  Bot,
   Briefcase,
   Calendar,
   CheckCircle2,
@@ -9,7 +10,6 @@ import {
   GraduationCap,
   MapPin,
   ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { profile } from '../data/profile';
@@ -219,7 +219,7 @@ export function ExperiencePage() {
                             whileTap={{ scale: 0.95 }}
                             className="inline-flex items-center gap-1.5 rounded-lg border border-orange-400/20 bg-orange-400/5 px-2.5 py-1 text-xs text-orange-300 hover:bg-orange-400/15 hover:text-orange-200 transition-colors"
                           >
-                            <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+                            <Bot className="h-3.5 w-3.5" />
                             Ask AI about this role
                           </motion.button>
                         </div>

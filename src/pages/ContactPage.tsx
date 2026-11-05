@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check, CheckCircle2, Clock, Copy, Download, Loader2, Mail, MapPin, Phone, RotateCcw, Send, Sparkles } from 'lucide-react';
+import { Bot, Check, CheckCircle2, Clock, Copy, Download, Loader2, Mail, MapPin, Phone, RotateCcw, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { profile } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -303,8 +303,8 @@ export function ContactPage() {
                 className="transition-transform hover:scale-105"
                 onClick={() => ask('Tell me about your background and what roles you are currently looking for')}
               >
-                <Sparkles className="h-3.5 w-3.5 text-orange-300 animate-pulse" />
-                Ask AI Twin First
+                <Bot className="h-3.5 w-3.5 text-orange-300" />
+                Ask Assistant First
               </Button>
             </div>
 

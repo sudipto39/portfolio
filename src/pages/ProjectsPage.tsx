@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Globe, Search, Sparkles } from 'lucide-react';
+import { ArrowRight, Bot, Globe, Search } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { accents, profile, type Project, type ProjectCategory } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -292,9 +292,9 @@ function FullProjectCard({ project: p }: { project: Project }) {
               onClick={() => ask(`Explain the architecture and design decisions behind the ${p.title} project`)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-1 rounded-lg border border-orange-400/25 bg-orange-400/10 px-2.5 py-1 text-xs text-orange-300 transition-colors hover:bg-orange-400/20 hover:text-orange-100"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-orange-400/25 bg-orange-400/10 px-2.5 py-1 text-xs text-orange-300 transition-colors hover:bg-orange-400/20 hover:text-orange-100"
             >
-              <Sparkles className="h-3 w-3 animate-pulse" />
+              <Bot className="h-3.5 w-3.5" />
               Ask AI
             </motion.button>
           </div>

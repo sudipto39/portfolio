@@ -230,48 +230,23 @@ export function PageBackground({ variant = 'default', className }: PageBackgroun
 
       {variant === 'ai-twin' && (
         <svg
-          className="absolute inset-0 h-full w-full opacity-[0.08]"
+          className="absolute inset-0 h-full w-full opacity-[0.06]"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Synaptic AI neural connection lines */}
-          <motion.circle
-            cx="20%"
-            cy="30%"
-            r="4"
-            fill="#fb923c"
-            animate={{ opacity: [0.2, 0.8, 0.2], r: [3, 5, 3] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          />
-          <motion.circle
-            cx="35%"
-            cy="20%"
-            r="3"
-            fill="#f59e0b"
-            animate={{ opacity: [0.3, 0.9, 0.3], r: [2, 4, 2] }}
-            transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-          />
-          <motion.circle
-            cx="75%"
-            cy="40%"
-            r="4"
-            fill="#fb923c"
-            animate={{ opacity: [0.2, 0.7, 0.2] }}
-            transition={{ duration: 4.5, repeat: Infinity, delay: 2 }}
-          />
-          <motion.circle
-            cx="85%"
-            cy="25%"
-            r="3"
-            fill="#fdba74"
-            animate={{ opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
+          {/* Architectural data bus trace lines */}
+          <line x1="15%" y1="0" x2="15%" y2="100%" stroke="rgba(251, 146, 60, 0.3)" strokeWidth="1" strokeDasharray="3 6" />
+          <line x1="85%" y1="0" x2="85%" y2="100%" stroke="rgba(251, 146, 60, 0.3)" strokeWidth="1" strokeDasharray="3 6" />
+          <path
+            d="M 150 180 H 420 V 340 H 800"
+            fill="none"
+            stroke="rgba(251, 146, 60, 0.35)"
+            strokeWidth="1"
           />
           <path
-            d="M 280 220 L 490 150 L 720 280 L 1050 300"
+            d="M 600 480 H 920 V 620 H 1200"
             fill="none"
-            stroke="rgba(251, 146, 60, 0.4)"
+            stroke="rgba(245, 158, 11, 0.3)"
             strokeWidth="1"
-            strokeDasharray="4 6"
           />
         </svg>
       )}

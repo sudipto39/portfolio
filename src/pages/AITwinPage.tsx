@@ -14,18 +14,18 @@ import { AnimatedParagraph } from '../components/animations/ParagraphAnimation';
 const STEPS = [
   {
     icon: Braces,
-    title: 'Grounded on Single Source of Truth',
-    body: 'The AI system prompt is dynamically assembled from profile.ts with exact architectural details, tech metrics, and battle scars.',
+    title: 'Grounded System Context',
+    body: 'The AI prompt is compiled directly from verified project schemas and architecture metrics — preventing hallucinations with concrete data.',
   },
   {
     icon: Radio,
-    title: 'Token-by-Token SSE Streaming',
-    body: 'Server-Sent Events reader parses streaming chunks and batches token renders with requestAnimationFrame for smooth 60fps output.',
+    title: 'Direct SSE Streaming',
+    body: 'Server-Sent Events stream responses chunk-by-chunk straight from Gemini or Groq to your browser with low latency.',
   },
   {
     icon: ShieldCheck,
     title: 'Private & Zero Telemetry',
-    body: 'Your queries stay in your browser or your own Cloudflare Worker proxy. No intermediate analytics or telemetry databases.',
+    body: 'Requests stay directly between your browser and the inference API (or your own proxy). Zero telemetry databases or tracking.',
   },
 ];
 
@@ -80,13 +80,13 @@ export function AITwinPage() {
       <div className="mx-auto w-full max-w-[1620px] px-6 sm:px-10 lg:px-12 xl:px-16">
         {/* Header */}
         <SectionHeading
-          eyebrow="Interactive AI Studio"
+          eyebrow="Interactive Assistant"
           title={
             <>
-              Talk to my <span className="text-gradient">AI twin</span>
+              Explore my systems with <span className="text-gradient">AI</span>
             </>
           }
-          description="Ask questions about my distributed systems architecture, consistency trade-offs, scaling bottlenecks, or career milestones."
+          description="Ask questions about GiteaForge's sandbox architecture, HMAC webhook pipelines, backend REST APIs, or tech stack."
         />
 
         {/* Provider Switcher Bar */}
@@ -140,7 +140,7 @@ export function AITwinPage() {
         {/* How It Works Architecture Breakdown */}
         <div className="mt-20">
           <h3 className="text-xl font-bold text-white text-center mb-8">
-            How this AI Twin is engineered
+            How this assistant is built
           </h3>
           <StaggerContainer className="grid gap-6 md:grid-cols-3">
             {STEPS.map((step) => {

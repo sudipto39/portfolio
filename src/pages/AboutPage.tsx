@@ -1,4 +1,4 @@
-import { Activity, ArrowRight, Layers, ShieldCheck, Sparkles, Workflow } from 'lucide-react';
+import { Activity, ArrowRight, Bot, Layers, ShieldCheck, Workflow } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { profile } from '../data/profile';
@@ -59,9 +59,9 @@ export function AboutPage() {
               transition={{ duration: 0.95, delay: 0.35, ease: EASE }}
               className="mt-8 flex flex-wrap gap-3"
             >
-              <Button variant="gradient" size="lg" onClick={() => ask('Walk me through your background and architectural philosophy.')}>
-                <Sparkles className="h-4 w-4" />
-                Ask my AI Twin about my career
+              <Button variant="gradient" size="lg" onClick={() => ask('Walk me through your engineering background and architectural philosophy.')}>
+                <Bot className="h-4 w-4" />
+                Ask about my engineering background
               </Button>
               <Button variant="outline" size="lg" asChild>
                 <Link to="/experience">

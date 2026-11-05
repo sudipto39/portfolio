@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowUp, Mail, Sparkles } from 'lucide-react';
+import { ArrowUp, Bot, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { profile } from '../data/profile';
 import { useChat } from '../hooks/use-chat';
@@ -69,8 +69,8 @@ export function Footer() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-orange-400/25 bg-orange-400/10 px-3 py-1.5 text-xs font-medium text-orange-300 transition-colors hover:bg-orange-400/20"
               >
-                <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-                Ask AI Twin
+                <Bot className="h-3.5 w-3.5" />
+                Ask Assistant
               </motion.button>
             </div>
           </div>
@@ -140,7 +140,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm xl:text-base">
               <li>
                 <Link to="/ai-twin" className="text-gray-400 transition-colors hover:text-white">
-                  AI Twin Studio
+                  AI Assistant
                 </Link>
               </li>
               <li>

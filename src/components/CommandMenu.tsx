@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Command } from 'cmdk';
-import { Briefcase, Cpu, FileText, Folder, Home, Layers, Mail, MessageSquare, RotateCcw, Search, Sparkles, Users } from 'lucide-react';
+import { Bot, Briefcase, Cpu, FileText, Folder, Home, Layers, Mail, MessageSquare, RotateCcw, Search, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { profile } from '../data/profile';
@@ -15,7 +15,7 @@ const NAV = [
   { path: '/projects', label: 'Projects & Work', icon: Folder },
   { path: '/stack', label: 'Stack & 3D Orbit', icon: Layers },
   { path: '/experience', label: 'Experience & Career', icon: Briefcase },
-  { path: '/ai-twin', label: 'AI Twin Studio', icon: Sparkles },
+  { path: '/ai-twin', label: 'AI Assistant', icon: Bot },
   { path: '/contact', label: 'Contact', icon: Mail },
 ];
 
@@ -58,7 +58,7 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent hideClose className="top-[14%] max-w-xl translate-y-0 gap-0 overflow-hidden p-0">
         <DialogTitle className="sr-only">Command menu</DialogTitle>
-        <DialogDescription className="sr-only">Jump to any page, switch AI provider or ask my AI twin a question.</DialogDescription>
+        <DialogDescription className="sr-only">Jump to any page, switch AI provider or ask the assistant a question.</DialogDescription>
         <Command loop className="flex flex-col">
           <div className="flex items-center gap-3 border-b border-white/[0.08] px-4">
             <Search className="h-4 w-4 shrink-0 text-gray-500" />
@@ -79,10 +79,10 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
                 <Item
                   forceMount
                   value={`ask-ai ${query}`}
-                  icon={<Sparkles className="h-4 w-4 text-orange-300" />}
+                  icon={<Bot className="h-4 w-4 text-orange-300" />}
                   onSelect={() => run(() => ask(query))}
                 >
-                  Ask my AI twin: <span className="truncate text-orange-200">“{query}”</span>
+                  Ask AI assistant: <span className="truncate text-orange-200">“{query}”</span>
                 </Item>
               </Command.Group>
             )}
@@ -111,7 +111,7 @@ export function CommandMenu({ open, onOpenChange }: { open: boolean; onOpenChang
 
             <Command.Group heading="AI Assistant">
               <Item value="open ai chat studio" icon={<MessageSquare className="h-4 w-4" />} onSelect={() => goToPage('/ai-twin')}>
-                Open AI Twin Studio
+                Open AI Assistant
               </Item>
               <Item value="use google gemini" icon={<GeminiMark className="h-4 w-4 text-orange-400" />} onSelect={() => switchTo('gemini')}>
                 Use Google Gemini <span className="text-gray-500">Free API</span>
